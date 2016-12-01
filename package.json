@@ -1,0 +1,30 @@
+{
+  "name": "360check",
+  "version": "1.0.0",
+  "description": "360check for Dian.2016",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "waning",
+  "license": "ISC",
+  "dependencies": {
+    "basic-auth-connect": "^1.0.0",
+    "body-parser": "^1.15.2",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waningflow/360check.git"
+  },
+  "bugs": {
+    "url": "https://github.com/waningflow/360check/issues"
+  },
+  "homepage": "https://github.com/waningflow/360check#readme"
+}

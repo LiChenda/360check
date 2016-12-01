@@ -1,0 +1,65 @@
+table.users{
+	/*border-collapse: collapse;*/
+	/*margin: 0 auto;*/
+}
+table.users td,table.users th{
+	/*border:1px solid #DBDBDB;*/
+	width: 35px;
+	word-break:break-all;
+	padding: 5px;
+}
+table.users thead th{
+	text-align: center;
+}
+table.users thead tr:nth-child(2) th{
+	vertical-align: top;
+}
+table.users tr td:first-child,table.users tr th:first-child{
+	width: 90px;
+	white-space: nowrap;
+}
+table.users tr td:nth-child(2),table.users tr th:nth-child(2){
+	width: 55px;
+	white-space: nowrap;
+}
+.thead-fixed{
+	position: fixed;
+	background-color: #fff;
+	height: 200px;
+	overflow: hidden;
+	z-index: 99;
+	width: 100%;
+}
+.xmz-normal{
+	background-color: #E0F2F7;
+}
+.xmz-selected{
+	background-color: #2E64FE;
+}
+.dwh-normal{
+	background-color: #F5ECCE;
+}
+.dwh-selected{
+	background-color: #FFBF00;
+}
+.zzb-normal{
+	background-color: #CEF6CE;
+}
+.zzb-selected{
+	background-color: #04B404;
+}
+
+.signal{
+	width: 15px;
+	height: 15px;
+	background-color: #5FB404;
+	border-radius: 50%;
+}
+.signal-changed{
+	background-color: #DF0101;
+}
+.submitChange{
+	width: 30px;
+	white-space: normal;
+	padding: 3px 2px;
+}
