@@ -4,7 +4,7 @@ angular.
   module('userListView').
   component('userList', {
     templateUrl: '/static/js/user-list-view/user-list-view.template.html',
-    controller: function UserListController($http) {
+    controller: function UserListController($http, $scope) {
       var self = this;
       self.orderProp = 'username';
 
@@ -62,6 +62,23 @@ angular.
             console.log('update failed')
           })
       }
+      $scope.$on('ngRepeatFinished', function( ngRepeatFinishedEvent ) {
+        var height = document.querySelector('thead').getBoundingClientRect().height;
+        document.querySelector('.thead-fixed').setAttribute('style','height:'+height+'px')
+        // console.log('OKOK')
+      })
+      // $scope.$watch('$viewContentLoaded',function(){
+      //   var height = document.querySelector('thead').getBoundingClientRect().height;
+      //   document.querySelector('.thead-fixed').setAttribute('style','height:'+height+'px')
+      //   console.log('OKOK')
+      //   console.log(self);
+      //   console.log($scope)
+      // })
+      // self.load = function(){
+      //   var height = document.querySelector('thead').getBoundingClientRect().height;
+      //   document.querySelector('.thead-fixed').setAttribute('style','height:'+height+'px')
+      //   console.log('OKOK')
+      // }
     }
 
     
@@ -69,6 +86,7 @@ angular.
   directive('headResize', function($window) {
   return {
     link: function(scope, element, attr) {
+
       angular.element($window).bind('resize',function(event){
         var height = document.querySelector('thead').getBoundingClientRect().height;
         // console.log(height)
@@ -78,4 +96,16 @@ angular.
       })
     }
   };
+}).
+  directive('onFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
+    }
 });

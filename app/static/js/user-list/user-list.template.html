@@ -16,7 +16,7 @@
             <th></th>
             <th ng-repeat="xmz in $ctrl.config.xmz">{{xmz}}</th>
             <th ng-repeat="dwh in $ctrl.config.dwh">{{dwh}}</th>
-            <th ng-repeat="zzb in $ctrl.config.zzb">{{zzb}}</th>
+            <th ng-repeat="zzb in $ctrl.config.zzb" on-finish-render>{{zzb}}</th>
             <th><button type="button" class="btn btn-primary submitChange" ng-click="$ctrl.submitChange()">提交修改</button></th>
           </tr>
         </thead>

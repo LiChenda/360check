@@ -9,6 +9,7 @@ module.exports = function(app) {
   var auth = basicAuth(function(user, pass){
     return (user === 'waning' && pass === 'norway@123')
   })
+  /** admin **/
   app.get('/admin', auth, function(req, res){
     res.render('admin')
   });
@@ -18,4 +19,12 @@ module.exports = function(app) {
 
   app.get('/admin/getAllUsers', admin.getAllUsers);
   app.post('/admin/updateUsers', admin.updateUsers);
+
+  /**  360check  **/
+  app.get('/main', function(req, res){
+
+  })
+  app.get('/login', function(req, res){
+
+  })
 }

@@ -4,7 +4,7 @@ angular.
   module('userList').
   component('userList', {
     templateUrl: '/static/js/user-list/user-list.template.html',
-    controller: function UserListController($http) {
+    controller: function UserListController($scope, $http) {
       var self = this;
       self.orderProp = 'username';
 
@@ -62,6 +62,11 @@ angular.
             console.log('update failed')
           })
       }
+      $scope.$on('ngRepeatFinished', function( ngRepeatFinishedEvent ) {
+        var height = document.querySelector('thead').getBoundingClientRect().height;
+        document.querySelector('.thead-fixed').setAttribute('style','height:'+height+'px')
+        console.log('OKOK')
+      })
     }
 
     
@@ -78,4 +83,16 @@ angular.
       })
     }
   };
+}).
+  directive('onFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
+    }
 });
