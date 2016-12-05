@@ -9,7 +9,18 @@ lineReader.eachLine('users.csv', function(line){
 	var realname = line.split(';')[1];
 	var user = new User({username: username.slice(1, username.length - 1 )});
 	user.set('realname',realname.slice(1, realname.length - 1 ));
-	user.set('score',{xmz:{},dwh:{},zzb:{}})
+	user.set('score',[
+	{
+		partName: 'xmz',
+		content: []
+	},
+	{
+		partName: 'dwh',
+		content: []
+	},{
+		partName: 'zzb',
+		content: []
+	}])
 	user.save(function(err){
 		if(err){
 			console.log("Error: " + err)

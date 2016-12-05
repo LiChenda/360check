@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh" ng-app="checkMain">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>360check Admin</title>
+    <link rel="stylesheet" href="/lib/bootstrap.css">
+    <link rel="stylesheet" href="/lib/bower_components/lumx/dist/lumx.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="/static/css/main.css">
+     
+    <!-- Before body closing tag -->
+    <script src="/lib/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/lib/bower_components/velocity/velocity.js"></script>
+    <script src="/lib/bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="/lib/bower_components/angular/angular.js"></script>
+    <script src="/lib/bower_components/angular-route/angular-route.js"></script>
+    <script src="/lib/bower_components/lumx/dist/lumx.js"></script>
+    <!-- // <script src="/lib/angular.min.js"></script> -->
+    <script src="/static/js/main.module.js"></script>
+    <script src="/static/js/main.config.js"></script>
+
+    <script src="/static/js/check-action/check-action.module.js"></script>
+    <script src="/static/js/check-action/check-action.component.js"></script>
+    <script src="/static/js/data-list/data-list.module.js"></script>
+    <script src="/static/js/data-list/data-list.component.js"></script>
+  </head>
+  <body ng-controller="checkIndex">
+<!-- <input type="text" ng-model="user.username" ng-value="<%= username %>"> -->
+<script type="text/javascript">username='<%= username %>';realname='<%= realname %>'</script>
+  <div class="toolbar">
+    <div class="toolbar__left mr++ toggle_slidebar_btn" ng-click="toggleSlide()" ng-show="toggle.isBtnShow">
+        <lx-button lx-size="l" lx-color="black" lx-type="icon"><i class="mdi mdi-menu"></i></lx-button>
+    </div>
+    <span class="toolbar__label fs-title">360考核 Dian团队</span>
+
+    <div class="toolbar__right">
+      <div class="p+ menu-bar-l">
+          <a href="#!/360"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=true" class="tc-indigo-900">360考核</lx-button></a>
+          <a href="#!/datalist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">数据榜</lx-button></a>
+          <lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">明星榜</lx-button>
+          <lx-dropdown ng-if="user.username" lx-position="right">
+              <lx-dropdown-toggle>
+                  <button class="btn btn--m btn--raised bgc-indigo-50 tc-indigo-900" lx-ripple="indigo-500">{{user.realname}}</button>
+              </lx-dropdown-toggle>
+       
+              <lx-dropdown-menu>
+                  <ul>
+                      <li><a class="dropdown-link" href="/logout">退出登录</a></li>
+                  </ul>
+              </lx-dropdown-menu>
+          </lx-dropdown>
+          <a href="/login" ng-if="(user.username=='')"><lx-button lx-size="l" lx-type="raised" lx-color="blue">登录</lx-button></a>
+      </div>
+
+      <lx-dropdown lx-position="right" class="menu-bar-m">
+          <lx-dropdown-toggle>
+              <lx-button lx-size="l" lx-color="black" lx-type="icon"><i class="mdi mdi-dots-vertical"></i></lx-button>
+          </lx-dropdown-toggle>
+
+          <lx-dropdown-menu>
+              <ul>
+                  <li ng-click="toggle.isBtnShow=true"><a href="#!/360" class="dropdown-link">360考核</a></li>
+                  <li ng-click="toggle.isBtnShow=false"><a href="#!/datalist" class="dropdown-link">数据榜</a></li>
+                  <li ng-click="toggle.isBtnShow=false"><a class="dropdown-link">明星榜</a></li>
+                  <li class="dropdown-divider"></li>
+                  <li ng-if="(user.username=='')"><a href="/login" class="dropdown-link">登录</a></li>
+                  <li ng-if="user.username"><a class="dropdown-link">{{user.realname}}</a></li>
+                  <li class="dropdown-divider"></li>
+                  <li ng-if="user.username"><a class="dropdown-link" href="/logout">退出登录</a></li>
+              </ul>
+          </lx-dropdown-menu>
+      </lx-dropdown>
+    </div>
+
+  </div>
+  <div ng-view></div>
+  </body>
+</html>

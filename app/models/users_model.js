@@ -3,10 +3,21 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
     username: { type: String, unique: true },
     realname: String,
-    score: {
-    	xmz:{},
-    	dwh:{},
-    	zzb:{}
-    }
+    score: [
+    	{
+    		partName: String,
+    		content: [
+			    		{
+			    			teamName: String,
+			    			rateList: [
+			    				{
+			    					fromName: String,
+			    					rateScore: [Number]
+			    				}
+			    			]
+			    		}
+			    	]
+    	}
+    ]
 });
 mongoose.model('User', UserSchema);

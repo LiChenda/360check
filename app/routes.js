@@ -3,6 +3,7 @@ var express = require('express');
 var basicAuth = require('basic-auth-connect')
 module.exports = function(app) {
   var admin = require('./controllers/admin_controller');
+  var user = require('./controllers/users_controller');
   app.use('/static', express.static('./static')).
       use('/lib', express.static('../lib')
   );
@@ -22,9 +23,24 @@ module.exports = function(app) {
 
   /**  360check  **/
   app.get('/main', function(req, res){
-
+    console.log(req.session.username)
+    res.render('main', {username: req.session.username, 
+                        realname: req.session.realname});
   })
   app.get('/login', function(req, res){
+    if(req.session.username){
+      res.redirect('/main')
 
+    }else{
+      res.render('login')
+    }
   })
+  app.post('/login', user.login);
+  app.get('/logout', function(req, res){
+    req.session.destroy(function(){
+      res.redirect('/main')
+    })
+  })
+  app.post('/getRateList', user.getRateList);
+  app.post('/writeScore', user.writeScore);
 }

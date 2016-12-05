@@ -5,16 +5,17 @@ exports.getAllUsers = function(req, res){
 	var result = [];
 	User.find()
 	.exec(function(err, docs){
-		docs.forEach(function(value, index){
-			var row = {};
-			row['username'] = docs[index]['username'];
-			row['realname'] = docs[index]['realname'];
-			row['xmz'] = objToArray(docs[index]['score']['xmz']);
-			row['dwh'] = objToArray(docs[index]['score']['dwh']);
-			row['zzb'] = objToArray(docs[index]['score']['zzb']);
-			result.push(row);
-		})
-		res.json(result);
+		// docs.forEach(function(value, index){
+		// 	var row = {};
+		// 	row['username'] = docs[index]['username'];
+		// 	row['realname'] = docs[index]['realname'];
+		// 	row['xmz'] = objToArray(docs[index]['score']['xmz']);
+		// 	row['dwh'] = objToArray(docs[index]['score']['dwh']);
+		// 	row['zzb'] = objToArray(docs[index]['score']['zzb']);
+		// 	result.push(row);
+		// })
+		// res.json(result);
+		res.json(docs);
 	})
 	function objToArray(obj){
 		var arr = [];
@@ -38,9 +39,10 @@ exports.updateUsers = function(req, res){
 		if(allUsers[index]['isChanged']){
 			User.findOne({username:allUsers[index]['username']})
 				.exec(function(err, user){
-					user.set('score.xmz',arrayToObj(allUsers[index]['xmz']))
-					user.set('score.dwh',arrayToObj(allUsers[index]['dwh']))
-					user.set('score.zzb',arrayToObj(allUsers[index]['zzb']))
+					// user.set('score.xmz',arrayToObj(allUsers[index]['xmz']))
+					// user.set('score.dwh',arrayToObj(allUsers[index]['dwh']))
+					// user.set('score.zzb',arrayToObj(allUsers[index]['zzb']))
+					user.set('score', allUsers[index]['score'])
 					user.save(function(err){
 						if(err)
 							console.log("Error: "+err);

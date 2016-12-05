@@ -1,22 +1,47 @@
 <!doctype html>
-<html>
-<head>
-  <title>User Login and Sessions</title>
-  <link rel="stylesheet" type="text/css" 
-        href="/static/css/styles.css" />
-</head>
-<body>
-  <div class="form-container">
-    <p class="form-header">Login</p>
-    <form method="POST">
-        <label>Username:</label>
-        <input type="text" name="username"><br>
-        <label>Password:</label>
-        <input type="password" name="password"><br>
-        <input type="submit" value="Login">
-    </form>
+<html lang="zh" ng-app="login">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>360check-login</title>
+    <link rel="stylesheet" href="/lib/bower_components/lumx/dist/lumx.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="/static/css/login.css">
+     
+    <!-- Before body closing tag -->
+    <script src="/lib/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/lib/bower_components/velocity/velocity.js"></script>
+    <script src="/lib/bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="/lib/bower_components/angular/angular.js"></script>
+    <script src="/lib/bower_components/lumx/dist/lumx.js"></script>
+    <script src="/static/js/login.module.js"></script>
+  </head>
+  <body>
+    <div class="tc-white-1 p+" flex-container="row" flex-column="12">
+      <div flex-item="4"></div>
+      <div flex-item="4">
+        <div class="card" ng-controller="loginCard">
+            <div class="p+">
+                <div flex-item>
+                  <lx-text-field lx-label="喻信ID" lx-fixed-label="true" lx-icon="account">
+                      <input type="text" ng-model="formData.username">
+                  </lx-text-field>
+           
+                  <lx-text-field lx-label="密码" lx-fixed-label="true" lx-icon="key">
+                      <input type="password" ng-model="formData.password">
+                  </lx-text-field>
+           
+              </div>
+            </div>
+     
+            <div class="card__actions">
+                <lx-button lx-color="orange" lx-type="flat" class="confirm" ng-click="submit()">确定</lx-button>
+            </div>
+        </div>
+      </div>
+      <div flex-item="4"></div>
   </div>
-  <a href="/signup">Sign Up</a>
-  <hr><%= msg %>
-</body>
+      
+    
+  </body>
 </html>

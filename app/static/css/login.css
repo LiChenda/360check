@@ -1,0 +1,15 @@
+@media screen and (max-width: 1023px) and (min-width: 490px){
+	.card{
+		width: 340px;
+	}
+}
+.card{
+	margin: 50px auto;
+}
+.card__actions{
+	overflow: hidden;
+}
+.confirm{
+	float: right;
+	font-size: 1rem;
+}
