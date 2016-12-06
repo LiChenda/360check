@@ -4,7 +4,7 @@ angular.
 	module('scoreList').
 	component('scoreList', {
 		templateUrl: '/static/js/data-list/data-list.template.html',
-		controller: ['$http','$filter','$scope', '$rootScope',function scoreListController($http, $filter, $scope, $rootScope){
+		controller: ['$http','$filter','$scope', '$rootScope','LxNotificationService',function scoreListController($http, $filter, $scope, $rootScope,LxNotificationService){
 			var self = this;
 			self.allScoreList = [];
 			self.switches = {
@@ -17,7 +17,6 @@ angular.
 			$http.get('/static/json/question.json').then(function(response){
 				self.questions = response.data;
 				$http.get('/getAllScore').then(function(response){
-					// console.log('ss')
 					self.allScore = response.data;
 					// console.log(self.allScore);
 					var scoreYou = [];

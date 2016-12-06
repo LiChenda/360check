@@ -109,6 +109,10 @@ angular.
 				console.log(data);
 				$http.post('/writeScore', data).
 				success(function(data, status, headers, config){
+						if(data==3){
+							LxNotificationService.warning('Be Careful');
+							return false;
+						}
 						if(data==0){
 							LxNotificationService.success('提交成功');
 							self.nowPeople.haveScore = true;
@@ -124,6 +128,10 @@ angular.
 			if(self.username){
 				$http.post('/getRateList',{username: self.username}).
 					success(function(data, status, headers, config){
+						if(data==3){
+							LxNotificationService.warning('Be Careful');
+							return false;
+						}
 						self.rateList = data;
 						// console.log(self.rateList);
 						self.toogle = {};

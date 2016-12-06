@@ -60,6 +60,10 @@ exports.login = function(req, res){
 };
 
 exports.getRateList = function(req, res){
+  if(req.body.username!=req.session.username){
+    res.json(3)
+    return
+  }
   User.findOne({username:req.body.username}).
     exec(function(err, doc){
       if(err){
@@ -125,6 +129,10 @@ exports.getRateList = function(req, res){
 }
 
 exports.writeScore = function(req, res){
+  if(req.body.username!=req.session.username){
+    res.json(3)
+    return;
+  }
   User.findOne({'username':req.body.toName}).
     exec(function(err, doc){
       if (err) {
@@ -179,7 +187,6 @@ exports.writeScore = function(req, res){
 }
 
 exports.getAllScore = function(req, res){
-  console.log('ss')
   User.find().
     exec(function(err, docs){
       if(err){
@@ -204,7 +211,7 @@ exports.getAllScore = function(req, res){
               score: t_score          })
           }
         })
-        console.log(result)
+        // console.log(result)
         res.json(result);
       }
     })
