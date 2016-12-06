@@ -4,7 +4,7 @@ var checkMain = angular.module('checkMain',[
 	'lumx',
 	'ngRoute',
 	'checkAction',
-	'dataList'
+	'scoreList'
 	])
 checkMain.controller('checkIndex', ['$scope','$rootScope', function($scope, $rootScope){
 	$scope.user = {
@@ -20,8 +20,5 @@ checkMain.controller('checkIndex', ['$scope','$rootScope', function($scope, $roo
 		$rootScope.isSlideShow = !$rootScope.isSlideShow;
 		console.log($rootScope.isSlideShow)
 	}
-	// console.log($scope.user.username)
-	// console.log($scope.user.realname)
-	// console.log($scope)
 }])
 

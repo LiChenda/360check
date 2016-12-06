@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('dataList',['lumx'])
+angular.module('scoreList',['lumx'])

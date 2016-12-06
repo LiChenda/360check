@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>360check Admin</title>
+    <title>360考核</title>
     <link rel="stylesheet" href="/lib/bootstrap.css">
     <link rel="stylesheet" href="/lib/bower_components/lumx/dist/lumx.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
@@ -32,12 +32,12 @@
     <div class="toolbar__left mr++ toggle_slidebar_btn" ng-click="toggleSlide()" ng-show="toggle.isBtnShow">
         <lx-button lx-size="l" lx-color="black" lx-type="icon"><i class="mdi mdi-menu"></i></lx-button>
     </div>
-    <span class="toolbar__label fs-title">360考核 Dian团队</span>
+    <span class="toolbar__label fs-title"><i class="logo"></i><span style="margin-left:105px;color:rgba(0,0,0,.6);font-size:17px">360考核</span></span>
 
     <div class="toolbar__right">
       <div class="p+ menu-bar-l">
           <a href="#!/360"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=true" class="tc-indigo-900">360考核</lx-button></a>
-          <a href="#!/datalist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">数据榜</lx-button></a>
+          <a href="#!/scorelist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">数据榜</lx-button></a>
           <lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">明星榜</lx-button>
           <lx-dropdown ng-if="user.username" lx-position="right">
               <lx-dropdown-toggle>
@@ -61,7 +61,7 @@
           <lx-dropdown-menu>
               <ul>
                   <li ng-click="toggle.isBtnShow=true"><a href="#!/360" class="dropdown-link">360考核</a></li>
-                  <li ng-click="toggle.isBtnShow=false"><a href="#!/datalist" class="dropdown-link">数据榜</a></li>
+                  <li ng-click="toggle.isBtnShow=false"><a href="#!/scorelist" class="dropdown-link">数据榜</a></li>
                   <li ng-click="toggle.isBtnShow=false"><a class="dropdown-link">明星榜</a></li>
                   <li class="dropdown-divider"></li>
                   <li ng-if="(user.username=='')"><a href="/login" class="dropdown-link">登录</a></li>

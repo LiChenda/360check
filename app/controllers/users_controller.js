@@ -102,7 +102,7 @@ exports.getRateList = function(req, res){
 
                     })
                     if(count==teams.length){
-                      console.log(result);
+                      // console.log(result);
                       res.json(result)
                     }
                   }
@@ -174,6 +174,38 @@ exports.writeScore = function(req, res){
         }else{
           console.log('not found')
         }
+      }
+    })
+}
+
+exports.getAllScore = function(req, res){
+  console.log('ss')
+  User.find().
+    exec(function(err, docs){
+      if(err){
+        console.log('Error: '+err)
+      }else{
+        var result = [];
+        docs.forEach(function(v, i){
+          var t_score = [];
+          docs[i]['score'].forEach(function(v1, i1){
+            if(v1['partName']==='xmz'){
+              v1['content'].forEach(function(v2, i2){
+                v2['rateList'].forEach(function(v3, i3){
+                  t_score.push(v3['rateScore']);
+                })
+              })
+            }
+          })
+          if(t_score.length>0){
+            result.push({
+              username: docs[i]['username'],
+              realname: docs[i]['realname'],
+              score: t_score          })
+          }
+        })
+        console.log(result)
+        res.json(result);
       }
     })
 }

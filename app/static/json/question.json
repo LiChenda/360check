@@ -2,6 +2,7 @@
     {
         "questionIndex": 1,
         "title": "每周有效项目工作时间（可包括项目学习时间）是多少？（20）",
+        "subtitle": "每周有效项目工作时间 (20)",
         "options": [
             {
                 "optionIndex": 1,
@@ -33,6 +34,7 @@
     {
         "questionIndex": 2,
         "title": "本职工作完成的时效性和质量情况怎么样？（20）",
+        "subtitle": "工作时效性和质量 (20)",
         "options": [
             {
                 "optionIndex": 1,
@@ -64,6 +66,7 @@
     {
         "questionIndex": 3,
         "title": "发现和承担项目额外工作的主动性如何？（10）",
+        "subtitle": "承担额外项目主动性 (10)",
         "options": [
             {
                 "optionIndex": 1,
@@ -95,6 +98,7 @@
     {
         "questionIndex": 4,
         "title": "对份内工作的负责程度；对他人求助工作的负责程度如何？（10）",
+        "subtitle": "工作责任心 (10)",
         "options": [
             {
                 "optionIndex": 1,
@@ -126,6 +130,7 @@
     {
         "questionIndex": 5,
         "title": "对我的影响程度（包括正面、负面影响）?（10）",
+        "subtitle": "个人影响力 (10)",
         "options": [
             {
                 "optionIndex": 1,
@@ -157,6 +162,7 @@
     {
         "questionIndex": 6,
         "title": "项目组内各种文化活动的组织、参与和支持情况?(5)",
+        "subtitle": "参加文化活动积极性 (5)",
         "options": [
             {
                 "optionIndex": 1,
@@ -188,6 +194,7 @@
     {
         "questionIndex": 7,
         "title": "额外提供技术培训、技术辅助工具等贡献情况?(5)",
+        "subtitle": "技术贡献 (5)",
         "options": [
             {
                 "optionIndex": 1,

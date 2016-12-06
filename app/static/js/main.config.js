@@ -15,8 +15,8 @@ angular.
               }]
           }
         }).
-        when('/datalist', {
-          template: '<data-list></data-list>'
+        when('/scorelist', {
+          template: '<score-list></score-list>'
         }).
         otherwise('/360');
     }

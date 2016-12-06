@@ -45,19 +45,26 @@ angular.
 				for(var i=1;i<=qLength;i++){
 					self.formData['q'+i] = self.nowPeople.score[i-1]
 				}
-
-				var cards = document.querySelectorAll('.question');
-		        for(var i = 0,l = Math.floor(cards.length/2);i<l;i++){
-				 	var h1 = cards[2*i].children[0].getBoundingClientRect().height+20;
-				 	var h2 = cards[2*i+1].children[0].getBoundingClientRect().height+20;
-				 	if(h1<h2){
-				 		cards[2*i].setAttribute('style','height:'+h2+'px');
-				 		cards[2*i+1].setAttribute('style','height:'+h2+'px');
-				 	}else{
-				 		cards[2*i].setAttribute('style','height:'+h1+'px')
-				 		cards[2*i+1].setAttribute('style','height:'+h1+'px')
-				 	}
-				 }
+				if(window.innerWidth<=767){
+					var cards = document.querySelectorAll('.question');
+			        for(var i = 0,l = cards.length;i<l;i++){
+					 	var h = cards[i].children[0].getBoundingClientRect().height+20;
+					 	cards[i].setAttribute('style','height:'+h+'px');
+					 }
+				}else{
+					var cards = document.querySelectorAll('.question');
+			        for(var i = 0,l = Math.floor(cards.length/2);i<l;i++){
+					 	var h1 = cards[2*i].children[0].getBoundingClientRect().height+20;
+					 	var h2 = cards[2*i+1].children[0].getBoundingClientRect().height+20;
+					 	if(h1<h2){
+					 		cards[2*i].setAttribute('style','height:'+h2+'px');
+					 		cards[2*i+1].setAttribute('style','height:'+h2+'px');
+					 	}else{
+					 		cards[2*i].setAttribute('style','height:'+h1+'px')
+					 		cards[2*i+1].setAttribute('style','height:'+h1+'px')
+					 	}
+					 }
+				}
 				// var qLength =
 
 			}
@@ -71,7 +78,7 @@ angular.
 						self.nowPeople.score[parseInt(i.slice(1))-1] = -1;
 					}
 				})
-				console.log(self.nowPeople)
+				// console.log(self.nowPeople)
 			}
 			self.isChecked = function(score){
 				if(!score){
@@ -118,7 +125,7 @@ angular.
 				$http.post('/getRateList',{username: self.username}).
 					success(function(data, status, headers, config){
 						self.rateList = data;
-						console.log(self.rateList);
+						// console.log(self.rateList);
 						self.toogle = {};
 						angular.forEach(self.rateList, function(value, index){
 							self.toogle[value] = false;
@@ -160,19 +167,27 @@ angular.
 			})
 
 			$scope.$on('ngRepeatFinished', function( ngRepeatFinishedEvent ) {
-		         var cards = document.querySelectorAll('.question');
-				 for(var i = 0,l = Math.floor(cards.length/2);i<l;i++){
-				 	var h1 = cards[2*i].children[0].getBoundingClientRect().height+20;
-				 	var h2 = cards[2*i+1].children[0].getBoundingClientRect().height+20;
-				 	if(h1<h2){
-				 		cards[2*i].setAttribute('style','height:'+h2+'px');
-				 		cards[2*i+1].setAttribute('style','height:'+h2+'px');
-				 	}else{
-				 		cards[2*i].setAttribute('style','height:'+h1+'px')
-				 		cards[2*i+1].setAttribute('style','height:'+h1+'px')
-				 	}
-				 }
-		        console.log('OKOK')
+		         if(window.innerWidth<=767){
+					var cards = document.querySelectorAll('.question');
+			        for(var i = 0,l = cards.length;i<l;i++){
+					 	var h = cards[i].children[0].getBoundingClientRect().height+20;
+					 	cards[i].setAttribute('style','height:'+h+'px');
+					 }
+				}else{
+					var cards = document.querySelectorAll('.question');
+			        for(var i = 0,l = Math.floor(cards.length/2);i<l;i++){
+					 	var h1 = cards[2*i].children[0].getBoundingClientRect().height+20;
+					 	var h2 = cards[2*i+1].children[0].getBoundingClientRect().height+20;
+					 	if(h1<h2){
+					 		cards[2*i].setAttribute('style','height:'+h2+'px');
+					 		cards[2*i+1].setAttribute('style','height:'+h2+'px');
+					 	}else{
+					 		cards[2*i].setAttribute('style','height:'+h1+'px')
+					 		cards[2*i+1].setAttribute('style','height:'+h1+'px')
+					 	}
+					 }
+				}
+		        // console.log('OKOK')
 		      })
 		}],
 		bindings: {
@@ -195,18 +210,28 @@ angular.
 	 document.querySelector('.slide-mask').setAttribute('style','width:'+width+'px;height:'+height+'px');
 	
      angular.element($window).bind('resize',function(event){
-        var cards = document.querySelectorAll('.question');
-        for(var i = 0,l = Math.floor(cards.length/2);i<l;i++){
-		 	var h1 = cards[2*i].children[0].getBoundingClientRect().height+20;
-		 	var h2 = cards[2*i+1].children[0].getBoundingClientRect().height+20;
-		 	if(h1<h2){
-		 		cards[2*i].setAttribute('style','height:'+h2+'px');
-		 		cards[2*i+1].setAttribute('style','height:'+h2+'px');
-		 	}else{
-		 		cards[2*i].setAttribute('style','height:'+h1+'px')
-		 		cards[2*i+1].setAttribute('style','height:'+h1+'px')
-		 	}
-		 }
+        if(window.innerWidth<=767){
+			var cards = document.querySelectorAll('.question');
+	        for(var i = 0,l = cards.length;i<l;i++){
+			 	var h = cards[i].children[0].getBoundingClientRect().height+20;
+			 	cards[i].setAttribute('style','height:'+h+'px');
+			 }
+		}else{
+			var cards = document.querySelectorAll('.question');
+	        for(var i = 0,l = Math.floor(cards.length/2);i<l;i++){
+			 	var h1 = cards[2*i].children[0].getBoundingClientRect().height+20;
+			 	var h2 = cards[2*i+1].children[0].getBoundingClientRect().height+20;
+			 	if(h1<h2){
+			 		cards[2*i].setAttribute('style','height:'+h2+'px');
+			 		cards[2*i+1].setAttribute('style','height:'+h2+'px');
+			 	}else{
+			 		cards[2*i].setAttribute('style','height:'+h1+'px')
+			 		cards[2*i+1].setAttribute('style','height:'+h1+'px')
+			 	}
+			 }
+		}
+		var width = window.innerWidth,
+    		height = window.innerHeight;
         document.querySelector('.slide-mask').setAttribute('style','width:'+width+'px;height:'+height+'px');
      	element.css({
           height: height + 'px'

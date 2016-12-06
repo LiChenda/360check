@@ -36,7 +36,7 @@
 </div>
 <div class="slide-left" slide-resize ng-class="{'slide-left-show':$ctrl.isSlideShow}">
 	<ul id="accordion" class="accordion">
-				<li><div class="link" style="color:#FF8000;font-size:1.1rem;">Dian团队</div></li>
+				<li><div class="link" style="height:60px;"><i class="logo" style="top:8px"></i></div></li>
 				<li ng-repeat="(key, value) in $ctrl.rateList">
 					<div class="link" ng-click="$ctrl.toogleMenu(key)"><i class="fa fa-paint-brush"></i>{{key}}<i class="fa fa-chevron-down"></i></div>
 					<ul class="submenu" ng-show="$ctrl.toogle[key]">
@@ -45,4 +45,10 @@
 				</li>
 		</ul>
 </div>
-<div class="slide-mask" ng-show="$ctrl.isSlideShow" ng-click="$ctrl.toggleSlide()"></div>
+<div class="slide-mask" ng-show="$ctrl.isSlideShow" ng-click="$ctrl.toggleSlide()">
+	<div class="category-tip">
+		<p style="position:relative;right:15px;">轻触这里</p>
+		<p style="position:relative;right:15px;">关闭目录</p>
+		<lx-icon lx-id="cursor-pointer" lx-size="m" lx-color="gray" lx-type="flat"></lx-icon>
+	</div>
+</div>
