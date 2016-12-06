@@ -16,11 +16,14 @@
     <script src="/lib/bower_components/lumx/dist/lumx.js"></script>
     <script src="/static/js/login.module.js"></script>
   </head>
-  <body>
+  <body ng-controller="loginCard" my-enter="submit()">
+    <div style="position: relative;">
+      <lx-progress lx-type="linear" lx-color="teal" lx-value="{{ vm.determinateLinearProgressValue }}" ng-if="vm.showDeterminateLinearProgress"></lx-progress>
+  </div>
     <div class="tc-white-1 p+" flex-container="row" flex-column="12">
       <div flex-item="4"></div>
       <div flex-item="4">
-        <div class="card" ng-controller="loginCard">
+        <div class="card">
             <div class="p+">
                 <div flex-item>
                   <lx-text-field lx-label="喻信ID" lx-fixed-label="true" lx-icon="account">
@@ -28,7 +31,7 @@
                   </lx-text-field>
            
                   <lx-text-field lx-label="密码" lx-fixed-label="true" lx-icon="key">
-                      <input type="password" ng-model="formData.password">
+                      <input type="password" ng-model="formData.password" ng-keydown="onSearchKeyDown($event)">
                   </lx-text-field>
            
               </div>
