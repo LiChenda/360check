@@ -1,7 +1,23 @@
 <div flex-container="row" flex-column="12">
 	<div flex-item="1"></div>
+	<div flex-item="10" style="overflow:hidden">
+		<div class="p+" style="float:right">
+		    <lx-switch ng-model="$ctrl.switches.display.chart" lx-color="orange" class="mt+">折线图显示</lx-switch>
+		</div>
+	</div>
+	<div flex-item="1"></div>
+</div>
+<div flex-container="row" flex-column="12" ng-hide="$ctrl.switches.display.chart">
+	<div flex-item="1"></div>
 	<div flex-item="10" class="bc-white-1 score-table">
 	<lx-data-table lx-border="true" lx-thumbnail="false" lx-thead="$ctrl.advancedDataTableThead" lx-tbody="$ctrl.dataTableTbody"></lx-data-table>
+	</div>
+	<div flex-item="1"></div>
+</div>
+<div flex-container="row" flex-column="12" ng-show="$ctrl.switches.display.chart" style="width:100%">
+	<div flex-item="1"></div>
+	<div flex-item="10" class="bc-white-1" style="margin: 20px 6px 10px 6px;">
+		<div id="score-chart" style="height:450px"></div>
 	</div>
 	<div flex-item="1"></div>
 </div>

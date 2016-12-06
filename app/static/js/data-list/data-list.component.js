@@ -7,7 +7,13 @@ angular.
 		controller: ['$http','$filter','$scope', '$rootScope',function scoreListController($http, $filter, $scope, $rootScope){
 			var self = this;
 			self.allScoreList = [];
-			console.log('ppp')
+			self.switches = {
+				display:{
+					chart:true
+				}
+			}
+			
+
 			$http.get('/static/json/question.json').then(function(response){
 				self.questions = response.data;
 				$http.get('/getAllScore').then(function(response){
@@ -17,7 +23,7 @@ angular.
 					var scoreYou = [];
 					angular.forEach(self.allScore, function(v, i){
 						self.allScore[i]['p_average'] = getAverage(self.allScore[i]['score']);
-						console.log(self.allScore[i]['p_average'])
+						// console.log(self.allScore[i]['p_average'])
 						self.allScoreList.push(self.allScore[i]['p_average']);
 						if(self.allScore[i]['username']==$rootScope.username){
 							scoreYou = self.allScore[i]['p_average'];
@@ -35,6 +41,61 @@ angular.
 							yourscore: scoreYou[i]
 						})
 					}
+
+					$('#score-chart').highcharts({
+				        chart: {
+				            type: 'line'
+				        },
+				        title: {
+				            text: 'Dian团队大数据'
+				        },
+				        subtitle: {
+				            text: 'Dian团队: 360考核'
+				        },
+				        xAxis: {
+				            categories: (function(){
+				            	var re = [];
+				            	self.questions['XMZ'].forEach(function(v, i){
+				            		re.push(v['subtitle'])
+				            	})
+				            	return re;
+				            })()	
+				        },
+				        yAxis: {
+				            title: {
+				                text: '分数'
+				            }
+				        },
+				        plotOptions: {
+				            line: {
+				                dataLabels: {
+				                    enabled: true
+				                },
+				                enableMouseTracking: true
+				            }
+				        },
+				        series: [{
+				            name: '平均分',
+				            data: scoreAverage
+				        },{
+				        	name: '最高分',
+				        	color: '#FF8000',
+				        	data: (function(){
+				        		var re = [];
+				        		angular.forEach(scoreHigh, function(v, i){
+				        			re.push({
+				        				name: scoreHigh[i]['name'].join(','),
+				        				y: scoreHigh[i]['score'],
+				        				color: '#FF8000'
+				        			})
+				        		})
+				        		return re;
+				        	})()
+				        },{
+				        	name: '你的分数',
+				        	data: scoreYou
+				        }]
+				    });
 
 				})
 			})
@@ -61,7 +122,7 @@ angular.
 				return high;
 			}
 			function getAverage(score){
-				console.log(score)
+				// console.log(score)
 				if(score.length==0){
 					console.log('no score');
 					return;
@@ -80,7 +141,7 @@ angular.
 				for(var i=0;i<l;i++){
 					result[i] = parseFloat((result[i]/sl).toFixed(2));
 				}
-				console.log(result);
+				// console.log(result);
 				return result;
 			}
 			
