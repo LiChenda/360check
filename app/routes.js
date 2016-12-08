@@ -46,4 +46,7 @@ module.exports = function(app) {
   app.post('/writeScore', user.writeScore);
   app.post('/writeImpression', user.writeImpression);
   app.get('/getAllScore', user.getAllScore);
+
+  app.post('/getImpressionForCaptain', user.getImpressionForCaptain);
+  app.post('/getImpressionForTutor', user.getImpressionForTutor);
 }

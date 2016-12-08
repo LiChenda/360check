@@ -18,7 +18,18 @@ angular.
 				self.questions = response.data;
 				$http.get('/getAllScore').then(function(response){
 					self.allScore = response.data;
-					// console.log(self.allScore);
+					if(!self.allScore.length){
+						var s = {
+							username: '_noScore',
+							realname: 'noScore',
+							score: []
+						};
+						for(var i=0,length = self.questions['XMZ'].length;i<length;i++){
+							s['score'].push(0)
+						}
+						self.allScore.push(s);
+					}
+					console.log(self.allScore);
 					var scoreYou = [];
 					angular.forEach(self.allScore, function(v, i){
 						self.allScore[i]['p_average'] = getAverage(self.allScore[i]['score']);

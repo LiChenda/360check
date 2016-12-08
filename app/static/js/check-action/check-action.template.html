@@ -6,16 +6,34 @@
 				<li ng-repeat="(key, value) in $ctrl.rateList">
 					<div class="link" ng-click="$ctrl.toogleMenu(key)"><i class="fa fa-paint-brush"></i>{{key}}<i class="fa fa-chevron-down"></i></div>
 					<ul class="submenu" ng-show="$ctrl.toogle[key]">
-						<li ng-repeat="names in value" ng-click="$ctrl.updateNowPeople(key, names.username, $index)"><a>{{names.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked(names.score)"></lx-icon></a></li>
+						<li ng-repeat="names in value" ng-click="$ctrl.updateNowPeople(key, names.username, $index)"><a>{{names.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="names.haveScore"></lx-icon></a></li>
 					</ul>
 				</li>
 		</ul>
 	
-		<ul class="accordion" style="margin-top:20px;">
+		<ul class="accordion" style="margin-top:20px;" ng-if="$ctrl.identity=='normal' || $ctrl.identity=='tutor'">
 				<li >
 					<div class="link" ng-click="$ctrl.toogleMenu('captain')"><i class="fa fa-paint-brush"></i>队长<i class="fa fa-chevron-down"></i></div>
 					<ul class="submenu" ng-show="$ctrl.toogle['captain']">
-						<li ng-repeat="name in $ctrl.captain" ng-click="$ctrl.updateCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked($ctrl.impression)"></lx-icon></a></li>
+						<li ng-repeat="name in $ctrl.captain" ng-click="$ctrl.updateCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.impressionHaveScore"></lx-icon></a></li>
+					</ul>
+				</li>
+		</ul>
+
+		<ul class="accordion" style="margin-top:20px;" ng-if="$ctrl.identity=='captain'">
+				<li>
+					<div class="link" ng-click="$ctrl.toogleMenu('imp-captain')"><i class="fa fa-paint-brush"></i>名单<i class="fa fa-chevron-down"></i></div>
+					<ul class="submenu" ng-show="$ctrl.toogle['imp-captain']">
+						<li ng-repeat="name in $ctrl.impressionList" ng-click="$ctrl.updateImpressionForCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="name.haveScore"></lx-icon></a></li>
+					</ul>
+				</li>
+		</ul>
+
+		<ul class="accordion" style="margin-top:20px;" ng-if="$ctrl.identity=='tutor'">
+				<li>
+					<div class="link" ng-click="$ctrl.toogleMenu('imp-tutor')"><i class="fa fa-paint-brush"></i>名单<i class="fa fa-chevron-down"></i></div>
+					<ul class="submenu" ng-show="$ctrl.toogle['imp-tutor']">
+						<li ng-repeat="name in $ctrl.impressionListForTutor" ng-click="$ctrl.updateImpressionForTutor(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="name.haveScore"></lx-icon></a></li>
 					</ul>
 				</li>
 		</ul>
@@ -24,7 +42,7 @@
     </div>
     <div flex-item="9">
     	<span class="fs-display-2 display-block bg-text" ng-hide="$ctrl.nowPeople.username!=''">Select Someone First</span>
-    	<div class="p+" ng-if="$ctrl.nowPeople.username!=''">
+    	<div class="p+" ng-show="$ctrl.nowPeople.type==='normal'">
     		<span class="fs-title display-block">{{$ctrl.nowPeople.teamName+' -- '+$ctrl.nowPeople.realname}}</span>
     	</div>
     	<div class="p+ card-container" ng-show="$ctrl.nowPeople.type==='normal'">
@@ -59,15 +77,54 @@
 		                        <span class="fs-subhead tc-black-2 display-block">项目组: FCoE</span>
 		                        <span class="fs-subhead tc-black-2 display-block">2012级种子班成员</span>
 		                        <span class="fs-subhead tc-black-2 display-block">2016级研究生</span>
-		                        <span class="fs-subhead tc-black-2 display-block">2016级研究生</span>
 		                    </div>
 		                </div>
 		 
 		                <lx-text-field lx-label="你对本届队长的印象分(满分100)" class="captain-score">
+					        <input type="number" ng-model="$ctrl.nowPeople.score[0]" ng-value="$ctrl.nowPeople.score[0]" max="100" min="0" ng-disabled="$ctrl.impressionHaveScore">
+					    </lx-text-field>
+					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression(0)"  ng-hide="$ctrl.impressionHaveScore">提交</lx-button>
+		            </div>
+		    </div>
+		</div>
+
+		<div class="p+" ng-show="($ctrl.nowPeople.type==='impressionForCaptain')">
+		    <div class="normal-impression">
+		            <div class="p+">
+			            <strong class="fs-headline display-block">{{$ctrl.nowPeople.realname}}</strong>
+			            <span class="fs-subhead tc-black-2 display-block">喻信ID: {{$ctrl.nowPeople.username}}</span>
+			            <span class="fs-subhead tc-black-2 display-block">项目组: <span ng-repeat="xmz in $ctrl.impressionList[$ctrl.nowPeople.index]['xmz']">{{xmz}} </span></span>
+			            <span class="fs-subhead tc-black-2 display-block" ng-show="$ctrl.impressionList[$ctrl.nowPeople.index]['dwh'].length>0">队委会: <span ng-repeat="dwh in $ctrl.impressionList[$ctrl.nowPeople.index]['dwh']">{{dwh}} </span></span>
+			            <span class="fs-subhead tc-black-2 display-block" ng-show="$ctrl.impressionList[$ctrl.nowPeople.index]['zzb'].length>0">种子班: <span ng-repeat="zzb in $ctrl.impressionList[$ctrl.nowPeople.index]['zzb']">{{zzb}}种子班 </span></span>
+			 
+			        </div>
+			 
+			        <div class="card__actions">
+			            <lx-text-field lx-label="你对该队员的印象分(满分100)" class="captain-score">
 					        <input type="number" ng-model="$ctrl.nowPeople.score[0]" ng-value="$ctrl.nowPeople.score[0]" max="100" min="0" ng-disabled="$ctrl.nowPeople.haveScore">
 					    </lx-text-field>
-					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression()"  ng-hide="$ctrl.nowPeople.haveScore">提交</lx-button
-		            </div>
+					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression(1)" ng-hide="$ctrl.nowPeople.haveScore">提交</lx-button>
+			        </div>
+		    </div>
+		</div>
+
+		<div class="p+" ng-show="($ctrl.nowPeople.type==='impressionForTutor')">
+		    <div class="normal-impression">
+		            <div class="p+">
+			            <strong class="fs-headline display-block">{{$ctrl.nowPeople.realname}}</strong>
+			            <span class="fs-subhead tc-black-2 display-block">喻信ID: {{$ctrl.nowPeople.username}}</span>
+			            <span class="fs-subhead tc-black-2 display-block" ng-show="$ctrl.impressionListForTutor[$ctrl.nowPeople.index]['xmz'].length>0"><span ng-repeat="xmz in $ctrl.impressionListForTutor[$ctrl.nowPeople.index]['xmz']">{{xmz}}组长 </span></span>
+			            <span class="fs-subhead tc-black-2 display-block" ng-show="$ctrl.impressionListForTutor[$ctrl.nowPeople.index]['dwh'].length>0"><span ng-repeat="dwh in $ctrl.impressionListForTutor[$ctrl.nowPeople.index]['dwh']">{{dwh}}部长 </span></span>
+			 
+			         
+			        </div>
+			 
+			        <div class="card__actions">
+			            <lx-text-field lx-label="你对该队员的印象分(满分100)" class="captain-score">
+					        <input type="number" ng-model="$ctrl.nowPeople.score[0]" ng-value="$ctrl.nowPeople.score[0]" max="100" min="0" ng-disabled="$ctrl.nowPeople.haveScore">
+					    </lx-text-field>
+					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression(2)" ng-hide="$ctrl.nowPeople.haveScore">提交</lx-button>
+			        </div>
 		    </div>
 		</div>
 		
@@ -84,11 +141,29 @@
 				</li>
 		</ul>
 
-		<ul class="accordion">
+		<ul class="accordion" ng-if="$ctrl.identity=='normal' || $ctrl.identity=='tutor'">
 				<li >
 					<div class="link" ng-click="$ctrl.toogleMenu('captain')"><i class="fa fa-paint-brush"></i>队长<i class="fa fa-chevron-down"></i></div>
 					<ul class="submenu" ng-show="$ctrl.toogle['captain']">
 						<li ng-repeat="name in $ctrl.captain" ng-click="$ctrl.updateCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked($ctrl.impression)"></lx-icon></a></li>
+					</ul>
+				</li>
+		</ul>
+
+		<ul class="accordion" ng-if="$ctrl.identity=='captain'">
+				<li>
+					<div class="link" ng-click="$ctrl.toogleMenu('imp-captain')"><i class="fa fa-paint-brush"></i>名单<i class="fa fa-chevron-down"></i></div>
+					<ul class="submenu" ng-show="$ctrl.toogle['imp-captain']">
+						<li ng-repeat="name in $ctrl.impressionList" ng-click="$ctrl.updateImpressionForCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked(name.score)"></lx-icon></a></li>
+					</ul>
+				</li>
+		</ul>
+
+		<ul class="accordion" ng-if="$ctrl.identity=='tutor'">
+				<li>
+					<div class="link" ng-click="$ctrl.toogleMenu('imp-tutor')"><i class="fa fa-paint-brush"></i>名单<i class="fa fa-chevron-down"></i></div>
+					<ul class="submenu" ng-show="$ctrl.toogle['imp-tutor']">
+						<li ng-repeat="name in $ctrl.impressionListForTutor" ng-click="$ctrl.updateImpressionForTutor(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked(name.score)"></lx-icon></a></li>
 					</ul>
 				</li>
 		</ul>

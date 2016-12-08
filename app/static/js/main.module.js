@@ -4,15 +4,16 @@ var checkMain = angular.module('checkMain',[
 	'lumx',
 	'ngRoute',
 	'checkAction',
-	'scoreList'
+	'scoreList',
+	'allScore'
 	])
 checkMain.controller('checkIndex', ['$scope','$rootScope', function($scope, $rootScope){
 	$scope.user = {
 		username: window.username,
 		realname: window.realname
 	}
-	$scope.toggle = {
-		isBtnShow: true
+	$rootScope.toggle = {
+		isBtnShow: false
 	}
 	$rootScope.username = window.username;
 	$rootScope.isSlideShow = false;

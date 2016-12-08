@@ -36,19 +36,28 @@ exports.updateUsers = function(req, res){
 		return result;
 	}
 	allUsers.forEach(function(value, index){
-		if(allUsers[index]['isChanged']){
+		// if(allUsers[index]['isChanged']){
 			User.findOne({username:allUsers[index]['username']})
 				.exec(function(err, user){
 					// user.set('score.xmz',arrayToObj(allUsers[index]['xmz']))
 					// user.set('score.dwh',arrayToObj(allUsers[index]['dwh']))
 					// user.set('score.zzb',arrayToObj(allUsers[index]['zzb']))
-					user.set('score', allUsers[index]['score'])
+					allUsers[index]['score'].forEach(function(v, i){
+						v['content'].forEach(function(v1, i1){
+							v1['rateList'] = [];
+						})
+					})   //清空问卷
+					user.set('score', allUsers[index]['score']) 
+
+
+					user.set('impression', [])  //清空印象分
+
 					user.save(function(err){
 						if(err)
 							console.log("Error: "+err);
 					})
 				})
-		}
+		// }
 	})
 	res.json(0)
 }

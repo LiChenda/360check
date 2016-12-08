@@ -18,6 +18,9 @@ angular.
         when('/scorelist', {
           template: '<score-list></score-list>'
         }).
-        otherwise('/360');
+        when('/allscore', {
+          template: '<all-score></all-score>'
+        }).
+        otherwise('/scorelist');
     }
   ]);

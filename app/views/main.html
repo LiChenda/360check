@@ -24,6 +24,8 @@
     <script src="/static/js/check-action/check-action.component.js"></script>
     <script src="/static/js/data-list/data-list.module.js"></script>
     <script src="/static/js/data-list/data-list.component.js"></script>
+    <script src="/static/js/all-score/all-score.module.js"></script>
+    <script src="/static/js/all-score/all-score.component.js"></script>
 
     <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
     <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
@@ -42,6 +44,7 @@
           <a href="#!/360"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=true" class="tc-indigo-900">360考核</lx-button></a>
           <a href="#!/scorelist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">数据榜</lx-button></a>
           <lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">明星榜</lx-button>
+          <a href="#!/allscore"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">分数统计</lx-button></a>
           <lx-dropdown ng-if="user.username" lx-position="right">
               <lx-dropdown-toggle>
                   <button class="btn btn--m btn--raised bgc-indigo-50 tc-indigo-900" lx-ripple="indigo-500">{{user.realname}}</button>

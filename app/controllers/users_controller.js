@@ -65,58 +65,132 @@ exports.getRateList = function(req, res){
     res.json(3)
     return
   }
-  User.findOne({username:req.body.username}).
-    exec(function(err, doc){
-      if(err){
-        res.json({status:1, msg:'该用户不在考核名单'})
-      }else{
-        // findTeamMemberExceptOne('xmz', 'Norway组', 'waning')
-        var teams = getKeys(doc);
-        console.log(teams)
-        var result = {};
-        teams.forEach(function(value, index){
-          result[teams[index]] = [];
-        })
-        var count = 0;
-        teams.forEach(function(value, index){
-            User.find({$and:[{'score.content.teamName':teams[index]},{'username':{$ne: doc.username}}]}).
-                exec(function(err, docs){
-                  if(err){
-                    console.log('Error: '+err);
-                  }else{
-                    // console.log(docs);
-                    count += 1;
-                    docs.forEach(function(v, i){
-                      var t_score = [];
-                      docs[i]['score'].forEach(function(v1, i1){
-                        v1['content'].forEach(function(v2, i2){
-                          if(v2['teamName']===teams[index]){
-                            v2['rateList'].forEach(function(v3, i3){
-                              if(v3['fromName']===req.body.username){
-                                t_score = v3['rateScore'];
-                              }
+   var options = {
+    host: '127.0.0.1',
+    path: '/static/json/boss.json',
+    port: '1337'
+  }
+  var captain;
+  http.request(options, function(response){
+    var jsondata = '';
+    response.on('data',function(chunk){
+      jsondata += chunk;
+    });
+    response.on('end', function(){
+      captain = JSON.parse(jsondata).captain[0]['username'];
+      if(req.body.username===captain){
+        http.request({host:'127.0.0.1',path: '/static/json/config.json',port:'1337'},function(response){
+          var config = '';
+          response.on('data', function(chunk){
+            config += chunk;
+          });
+          response.on('end', function(){
+            var teams = [];
+            var result = {};
+            JSON.parse(config)['xmz'].forEach(function(v, i){
+              if(v['leader']===req.body.username){
+                teams.push(v['name'])
+              }
+            })
+           teams.forEach(function(value, index){
+              result[teams[index]] = [];
+            })
+            var count = 0;
+            teams.forEach(function(value, index){
+                  User.find({'score.content.teamName':teams[index]}).
+                      exec(function(err, docs){
+                        if(err){
+                          console.log('Error: '+err);
+                        }else{
+                          // console.log(docs);
+                          count += 1;
+                          docs.forEach(function(v, i){
+                            var t_score = [];
+                            docs[i]['score'].forEach(function(v1, i1){
+                              v1['content'].forEach(function(v2, i2){
+                                if(v2['teamName']===teams[index]){
+                                  v2['rateList'].forEach(function(v3, i3){
+                                    if(v3['fromName']===req.body.username){
+                                      t_score = v3['rateScore'];
+                                    }
+                                  })
+                                }
+                              })
                             })
+                            result[teams[index]].push({
+                              username: docs[i]['username'],
+                              realname: docs[i]['realname'],
+                              score: t_score
+                            })
+
+                          })
+                          if(count==teams.length){
+                            // console.log(result);
+                            res.json(result)
                           }
-                        })
+                        }
+
                       })
-                      result[teams[index]].push({
-                        username: docs[i]['username'],
-                        realname: docs[i]['realname'],
-                        score: t_score
+              })
+          })
+        }).end()
+      }else{
+        User.findOne({username:req.body.username}).
+          exec(function(err, doc){
+            if(err){
+              res.json({status:1, msg:'该用户不在考核名单'})
+            }else{
+              // findTeamMemberExceptOne('xmz', 'Norway组', 'waning')
+              var teams = getKeys(doc);
+              console.log(teams)
+              var result = {};
+              teams.forEach(function(value, index){
+                result[teams[index]] = [];
+              })
+              var count = 0;
+              teams.forEach(function(value, index){
+                  User.find({'score.content.teamName':teams[index]}).
+                      exec(function(err, docs){
+                        if(err){
+                          console.log('Error: '+err);
+                        }else{
+                          // console.log(docs);
+                          count += 1;
+                          docs.forEach(function(v, i){
+                            var t_score = [];
+                            docs[i]['score'].forEach(function(v1, i1){
+                              v1['content'].forEach(function(v2, i2){
+                                if(v2['teamName']===teams[index]){
+                                  v2['rateList'].forEach(function(v3, i3){
+                                    if(v3['fromName']===req.body.username){
+                                      t_score = v3['rateScore'];
+                                    }
+                                  })
+                                }
+                              })
+                            })
+                            result[teams[index]].push({
+                              username: docs[i]['username'],
+                              realname: docs[i]['realname'],
+                              score: t_score
+                            })
+
+                          })
+                          if(count==teams.length){
+                            // console.log(result);
+                            res.json(result)
+                          }
+                        }
+
                       })
+              })
 
-                    })
-                    if(count==teams.length){
-                      // console.log(result);
-                      res.json(result)
-                    }
-                  }
-
-                })
-        })
-
+            }
+          })
       }
     })
+  }).end()
+  
     function getKeys(obj){
         var result = [];
         obj['score'].forEach(function(value, index){
@@ -264,6 +338,137 @@ exports.writeImpression = function(req, res){
     })
 }
 
+exports.getImpressionForCaptain = function(req, res){
+  if(req.body.username!=req.session.username){
+    res.json(3)
+    return;
+  }
+  http.request({host:'127.0.0.1',path:'/static/json/config.json',port:'1337'},function(response){
+    var config = '';
+    response.on('data', function(chunk){
+      config += chunk;
+    })
+    response.on('end', function(){
+      // var teams = [];
+      var result = [];
+      // JSON.parse(config)['xmz'].forEach(function(v, i){
+      //   teams.push(v['name']);
+      // })
+      config = JSON.parse(config);
+      // console.log(teams)
+      // teams.forEach(function(value, index){
+      //     result[teams[index]] = [];
+      //   })
+      User.find({'username':{$ne: req.body.username}}).
+        exec(function(err, docs){
+          if(err){
+            console.log('Error: '+ err);
+          }else{
+            if(docs){
+              // console.log(docs.length)
+              docs.forEach(function(v, i){
+                var person = {
+                  username: docs[i]['username'],
+                  realname: docs[i]['realname'],
+                  xmz: [],
+                  dwh: [],
+                  zzb: [],
+                  score: []
+                };
+                v['score'].forEach(function(v1, i1){
+                    v1['content'].forEach(function(v2, i2){
+                      person[v1['partName']].push(v2['teamName'])
+                    })
+                })
+                v['impression'].forEach(function(v1, i1){
+                  if(v1['fromName']===req.body.username){
+                    person['score'].push(v1['score'])
+                  }
+                })
+                // console.log(person)
+                if(person['xmz'].length){
+                  result.push(person);
+                }
+              })
+              res.json(result);
+            }
+          }
+        })
+      
+    })
+  }).end()
+}
+
+exports.getImpressionForTutor = function(req, res){
+  if(req.body.username!=req.session.username){
+    res.json(3)
+    return;
+  }
+  http.request({host:'127.0.0.1',path:'/static/json/config.json',port:1337},function(response){
+    var config = '';
+    response.on('data', function(chunk){
+      config += chunk;
+    })
+    response.on('end', function(){
+      config = JSON.parse(config);
+      var names = [];
+      var result = [];
+      config['xmz'].forEach(function(v, i){
+        if(v['leader']!=''&&names.indexOf(v['leader'])=== -1){
+            names.push(v['leader'])
+          }
+      })
+      config['dwh'].forEach(function(v, i){
+        if(v['leader']!=''&&names.indexOf(v['leader'])=== -1){
+            names.push(v['leader'])
+          }
+      })
+      var count = 0;
+      names.forEach(function(v, i){
+        var person = {
+          username: v,
+          realname: '',
+          xmz: [],
+          dwh: [],
+          score: []
+        }
+        config['xmz'].forEach(function(v1, i1){
+          if(v1['leader']===v){
+             person['realname'] = v1['leaderName'];
+             person['xmz'].push(v1['name'])
+          }
+        })
+        config['dwh'].forEach(function(v1, i1){
+          if(v1['leader']===v){
+             person['realname'] = v1['leaderName'];
+             person['dwh'].push(v1['name'])
+          }
+        })
+        User.findOne({username: v}).
+          exec(function(err, doc){
+            if(err){
+              console.log('Error: '+err)
+            }else{
+              if(doc){
+                doc['impression'].forEach(function(v2, i2){
+                  if(v2['fromName']===req.body.username){
+                    person['score'].push(v2['score'])
+                    return false
+                  }
+                })
+                count += 1;
+                result.push(person);
+                if(count==names.length){
+                  res.json(result)
+                }
+              }
+            }
+          })
+      })
+    })
+  }).end()
+}
+
 exports.getAllScore = function(req, res){
   User.find().
     exec(function(err, docs){
@@ -277,7 +482,9 @@ exports.getAllScore = function(req, res){
             if(v1['partName']==='xmz'){
               v1['content'].forEach(function(v2, i2){
                 v2['rateList'].forEach(function(v3, i3){
-                  t_score.push(v3['rateScore']);
+                  if(v3['fromName']!=v['username']){
+                    t_score.push(v3['rateScore']);
+                  }
                 })
               })
             }
