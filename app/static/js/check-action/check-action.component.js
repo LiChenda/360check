@@ -14,10 +14,52 @@ angular.
 				partName: '',
 				teamName: '',
 				username: '',
-				realname: 'she',
+				realname: '',
 				index: '',
 				score: [],
-				haveScore: false
+				haveScore: false,
+				type: ''
+			}
+			self.submitImpression = function(){
+				console.log(self.nowPeople.score[0])
+				if(angular.isDefined(self.nowPeople.score[0])){
+					// self.nowPeople.haveScore = true;
+					var data = {
+						fromName: self.username,
+						toName: self.nowPeople.username,
+						score: parseFloat(self.nowPeople.score[0].toFixed(2)),
+						identity: 'normal'
+					}
+					// console.log(data)
+					$http.post('/writeImpression',data).
+					success(function(data, status, headers, config){
+						if(data==3){
+							LxNotificationService.warning('Be Careful');
+							return false;
+						}
+						if(data==0){
+							LxNotificationService.success('提交成功');
+							self.nowPeople.haveScore = true;
+						}else{
+							LxNotificationService.warning('提交失败,请稍后再试');
+						}
+					}).
+					error(function(data, status, headers, config){
+						LxNotificationService.warning('提交失败,请稍后再试');
+					})
+				}else{
+					LxNotificationService.warning('请填写有效的分数');
+				}
+			}
+			self.updateCaptain = function(name, index){
+				$rootScope.isSlideShow = false;
+				self.nowPeople.username = name.username;
+				self.nowPeople.realname = name.realname;
+				self.nowPeople.type = 'impression';
+				self.nowPeople.teamName = '队长';
+				self.nowPeople.score = self.impression;
+				self.nowPeople.index = index;
+				self.nowPeople.haveScore = (self.nowPeople.score.length>0);
 			}
 			self.updateNowPeople = function(team, name, index){
 				$rootScope.isSlideShow = false;
@@ -30,14 +72,17 @@ angular.
 				self.nowPeople.realname = self.rateList[team][index]['realname'];
 				self.nowPeople.score = self.rateList[team][index]['score'];
 				self.nowPeople.haveScore = self.isChecked();
+				self.nowPeople.type = 'normal';
 				// self.nowPeople.score = [20,20,10,10,10,5,5];
 				var qLength;
 				angular.forEach(self.config, function(v, i){
-					if(v.indexOf(team)>-1){
-						self.nowPeople.partName = i;
-						qLength = self.questions[self.nowPeople.partName.toUpperCase()].length;
-						return false;
-					}
+					angular.forEach(v, function(v1,  i1){
+						if(v1.name===team){
+							self.nowPeople.partName = i;
+							qLength = self.questions[self.nowPeople.partName.toUpperCase()].length;
+							return false;
+						}
+					})
 				})
 				console.log(self.nowPeople)
 				console.log(qLength)
@@ -134,7 +179,7 @@ angular.
 						}
 						self.rateList = data;
 						// console.log(self.rateList);
-						self.toogle = {};
+						self.toogle = {'captain':false};
 						angular.forEach(self.rateList, function(value, index){
 							self.toogle[value] = false;
 							angular.forEach(self.rateList[index],function(v, i){
@@ -147,8 +192,19 @@ angular.
 					error(function(data, status, headers, config){
 
 					})
+				$http.post('/getImpression',{username: self.username}).
+					success(function(data, status, headers, config){
+						if(data==3){
+							LxNotificationService.warning('Be Careful');
+							return false;
+						}
+						self.impression = data.impression;
+					}).
+					error(function(data, status, headers, config){
+
+					})
 			}
-			// self.c
+
 			$rootScope.$watch('isSlideShow', function(){
 				self.isSlideShow = $rootScope.isSlideShow;
 				console.log(self.isSlideShow);
@@ -169,6 +225,9 @@ angular.
 
 			$http.get('/static/json/question.json').then(function(response){
 				self.questions = response.data;
+			})
+			$http.get('/static/json/boss.json').then(function(response){
+				self.captain = response.data.captain;
 			})
 			$http.get('/static/json/config.json').then(function(response){
 				self.config = response.data;

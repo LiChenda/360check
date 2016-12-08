@@ -14,9 +14,9 @@
           <tr>
             <th></th>
             <th></th>
-            <th ng-repeat="xmz in $ctrl.config.xmz">{{xmz}}</th>
-            <th ng-repeat="dwh in $ctrl.config.dwh">{{dwh}}</th>
-            <th ng-repeat="zzb in $ctrl.config.zzb" on-finish-render>{{zzb}}</th>
+            <th ng-repeat="xmz in $ctrl.config.xmz">{{xmz.name}}</th>
+            <th ng-repeat="dwh in $ctrl.config.dwh">{{dwh.name}}</th>
+            <th ng-repeat="zzb in $ctrl.config.zzb" on-finish-render>{{zzb.name}}</th>
             <th><button type="button" class="btn btn-primary submitChange" ng-click="$ctrl.submitChange()">提交修改</button></th>
           </tr>
         </thead>
@@ -48,9 +48,9 @@
           <tr>
             <th></th>
             <th></th>
-            <th ng-repeat="xmz in $ctrl.config.xmz">{{xmz}}</th>
-            <th ng-repeat="dwh in $ctrl.config.dwh">{{dwh}}</th>
-            <th ng-repeat="zzb in $ctrl.config.zzb">{{zzb}}</th>
+            <th ng-repeat="xmz in $ctrl.config.xmz">{{xmz.name}}</th>
+            <th ng-repeat="dwh in $ctrl.config.dwh">{{dwh.name}}</th>
+            <th ng-repeat="zzb in $ctrl.config.zzb">{{zzb.name}}</th>
             <th><button class="submitChange">提交修改</button></th>
           </tr>
         </thead>
@@ -58,9 +58,9 @@
           <tr ng-repeat="user in $ctrl.users | orderBy:$ctrl.orderProp" username="{{user.username}}">
             <td>{{user.username}}</td>
             <td>{{user.realname}}</td>
-            <td class="xmz-normal" ng-repeat="xmz in $ctrl.config.xmz" ng-click="$ctrl.updateUser(user,'xmz',xmz)" ng-class="{'xmz-selected': $ctrl.isContained(user, 'xmz', xmz)}"></td>
-            <td class="dwh-normal" ng-repeat="dwh in $ctrl.config.dwh" ng-click="$ctrl.updateUser(user,'dwh',dwh)" ng-class="{'dwh-selected': $ctrl.isContained(user, 'dwh', dwh)}"></td>
-            <td class="zzb-normal" ng-repeat="zzb in $ctrl.config.zzb" ng-click="$ctrl.updateUser(user,'zzb',zzb)" ng-class="{'zzb-selected': $ctrl.isContained(user, 'zzb', zzb)}"></td>
+            <td class="xmz-normal" ng-repeat="xmz in $ctrl.config.xmz" ng-click="$ctrl.updateUser(user,'xmz',xmz.name)" ng-class="{'xmz-selected': $ctrl.isContained(user, 'xmz', xmz.name)}"></td>
+            <td class="dwh-normal" ng-repeat="dwh in $ctrl.config.dwh" ng-click="$ctrl.updateUser(user,'dwh',dwh.name)" ng-class="{'dwh-selected': $ctrl.isContained(user, 'dwh', dwh.name)}"></td>
+            <td class="zzb-normal" ng-repeat="zzb in $ctrl.config.zzb" ng-click="$ctrl.updateUser(user,'zzb',zzb.name)" ng-class="{'zzb-selected': $ctrl.isContained(user, 'zzb', zzb.name)}"></td>
             <td><div class="signal" ng-class="{'signal-changed': user.isChanged}"></div></td>
           </tr>
         </tbody>

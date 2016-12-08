@@ -60,6 +60,7 @@ exports.login = function(req, res){
 };
 
 exports.getRateList = function(req, res){
+  // console.log(req.body.username)
   if(req.body.username!=req.session.username){
     res.json(3)
     return
@@ -128,8 +129,51 @@ exports.getRateList = function(req, res){
     
 }
 
-exports.writeScore = function(req, res){
+exports.getImpression = function(req, res){
   if(req.body.username!=req.session.username){
+    res.json(3)
+    return
+  }
+  var options = {
+    host: '127.0.0.1',
+    path: '/static/json/boss.json',
+    port: '1337'
+  }
+  var captain;
+  http.request(options, function(response){
+    var jsondata = '';
+    response.on('data',function(chunk){
+      jsondata += chunk;
+    });
+    response.on('end', function(){
+      captain = JSON.parse(jsondata).captain[0]['username'];
+      // console.log(captain);
+      User.findOne({username:captain}).
+        exec(function(err, doc){
+          if(err){
+            console.log('Error: '+err);
+          }else{
+            if(doc){
+              var f = false;
+              var impressionScore = [];
+              doc.impression.forEach(function(v, i){
+                if(v['fromName']===req.body.username){
+                  f = true;
+                  impressionScore.push(v['score'])
+                  return false
+                }
+              })
+              res.json({impression: impressionScore});
+            }
+          }
+        })
+    })
+  }).end()
+  // User.findOne()
+}
+exports.writeScore = function(req, res){
+  // console.log(req.session.username)
+  if(req.body.fromName!=req.session.username){
     res.json(3)
     return;
   }
@@ -181,6 +225,40 @@ exports.writeScore = function(req, res){
           })
         }else{
           console.log('not found')
+        }
+      }
+    })
+}
+exports.writeImpression = function(req, res){
+  if(req.body.fromName!=req.session.username){
+    res.json(3)
+    return;
+  }
+  User.findOne({username:req.body.toName}).
+    exec(function(err, doc){
+      if(err){
+        console.log("Error: "+err);
+      }else{
+        if(doc){
+          var f = false;
+          doc.impression.forEach(function(v, i){
+            if(doc.impression[i]['fromName']===req.body.fromName){
+              f = true
+              doc.impression[i]['score'] = req.body.score
+              return false;
+            }
+          })
+          if(!f){
+            doc.impression.push({
+              fromName: req.body.fromName,
+              score: req.body.score,
+              identity: req.body.identity
+            })
+          }
+          doc.save(function(err){
+            console.log('save err')
+            res.json(0)
+          })
         }
       }
     })

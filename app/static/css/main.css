@@ -23,6 +23,22 @@
 	.card,.submit-btn{
 		width: 100%!important;
 	}
+	.captain{
+		width: 100%!important;
+	}
+}
+@media screen and (max-width: 414px){
+	.captain .card__img{
+		height: auto!important;
+		/*width: auto;*/
+	}
+	.captain-info{
+		width: 100%;
+	}
+	.captain-score,.captain-score-btn{
+		margin-left: 50%!important;
+		left: -110px;
+	}
 }
 @media screen and (max-width: 400px){
 	.card,.submit-btn{
@@ -249,6 +265,27 @@ label{
 	/*margin: 20px 6px 10px 6px;*/
 	background-color: #fff;
 	box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+}
+.captain{
+	background-color: #fff;
+	box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+	overflow: hidden;
+	padding: 5px;
+	margin: 5px;
+	width: 500px
+}
+.captain .card__img{
+	height: 350px;
+	width: auto;
+}
+.captain-info{
+	float: left;
+}
+.captain-score{
+	margin: -20px 0 0 10px;width:220px
+}
+.captain-score-btn{
+	margin: 0 0 0 10px;width:220px
 }
 .data-table td, .data-table th{
 	padding-right: 0;

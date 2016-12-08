@@ -1,30 +1,119 @@
 {
 	"xmz" : [
-		"WinMac组",
-		"移动组",
-		"Norway组",
-		"迅测组",
-		"SmartSAN",
-		"FCoE",
-		"D3P",
-		"iSNS",
-		"华为AP测速组",
-		"华为图像矫正组",
-		"华为主备组",
-		"华为路径组",
-		"迈普组",
-		"游戏组",
-		"悦然心动",
-		"魅果科技组",
-		"微弹幕"
+		{
+			"name": "WinMac组",
+			"leader": "lb",
+			"leaderName": "李家祥"
+		},
+		{
+			"name": "移动组",
+			"leader": "chenqz",
+			"leaderName": "陈庆祥"
+		},
+		{
+			"name": "Norway组",
+			"leader": "waning",
+			"leaderName": "朱礼源"
+		},
+		{
+			"name": "迅测组",
+			"leader": "baihengpei",
+			"leaderName": "白恒培"
+		},
+		{
+			"name": "SmartSAN",
+			"leader": "Jayden",
+			"leaderName": "黄盼军"
+		},
+		{
+			"name": "FCoE",
+			"leader": "yulebron",
+			"leaderName": "余乐"
+		},
+		{
+			"name": "D3P",
+			"leader": "liulukuo",
+			"leaderName": "刘路阔"
+		},
+		{
+			"name": "iSNS",
+			"leader": "xiayangwei",
+			"leaderName": "夏阳伟"
+		},
+		{
+			"name": "华为AP测速组",
+			"leader": "xingwei",
+			"leaderName": "邢维"
+		},
+		{
+			"name": "华为图像矫正组",
+			"leader": "lixiaoyu",
+			"leaderName": "李小雨"
+		},
+		{
+			"name": "华为主备组",
+			"leader": "gcy",
+			"leaderName": "郭承颖"
+		},
+		{
+			"name": "华为路径组",
+			"leader": "Link",
+			"leaderName": "林佛钧"
+		},
+		{
+			"name": "迈普组",
+			"leader": "liulukuo",
+			"leaderName": "刘路阔"
+		},	
+		{
+			"name": "游戏组",
+			"leader": "WhisperPine",
+			"leaderName": "赖昱松"
+		},
+		{
+			"name": "悦然心动",
+			"leader": "Asiam",
+			"leaderName": "乔泽阳"
+		},	
+		{
+			"name": "魅果科技组",
+			"leader": "jeanheo",
+			"leaderName": "曾豪"
+		},	
+		{
+			"name": "微弹幕",
+			"leader": "Link",
+			"leaderName": "林佛钧"
+		}	
 	],
 	"dwh" : [
-		"行政部",
-		"外联部",
-		"技术部"
+		{
+			"name": "行政部",
+			"leader": "gcy",
+			"leaderName": "郭承颖"
+		},
+		{
+			"name": "外联部",
+			"leader": "xiayangwei",
+			"leaderName": "夏阳伟"
+		},
+		{
+			"name": "技术部",
+			"leader": "Link",
+			"leaderName": "林佛钧"
+		}
+	
 	],
 	"zzb" : [
-		"13级",
-		"14级"
+		{
+			"name": "13级",
+			"leader": "Link",
+			"leaderName": "林佛钧"
+		},
+		{
+			"name": "14级",
+			"leader": "Sin",
+			"leaderName": "单勇"
+		}
 	]
 }

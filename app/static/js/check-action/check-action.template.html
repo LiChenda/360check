@@ -10,6 +10,16 @@
 					</ul>
 				</li>
 		</ul>
+	
+		<ul class="accordion" style="margin-top:20px;">
+				<li >
+					<div class="link" ng-click="$ctrl.toogleMenu('captain')"><i class="fa fa-paint-brush"></i>队长<i class="fa fa-chevron-down"></i></div>
+					<ul class="submenu" ng-show="$ctrl.toogle['captain']">
+						<li ng-repeat="name in $ctrl.captain" ng-click="$ctrl.updateCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked($ctrl.impression)"></lx-icon></a></li>
+					</ul>
+				</li>
+		</ul>
+		
 
     </div>
     <div flex-item="9">
@@ -17,7 +27,7 @@
     	<div class="p+" ng-if="$ctrl.nowPeople.username!=''">
     		<span class="fs-title display-block">{{$ctrl.nowPeople.teamName+' -- '+$ctrl.nowPeople.realname}}</span>
     	</div>
-    	<div class="p+ card-container" ng-if="$ctrl.nowPeople.username!=''">
+    	<div class="p+ card-container" ng-show="$ctrl.nowPeople.type==='normal'">
 		    <div class="card question" ng-repeat="question in $ctrl.questions[$ctrl.nowPeople.partName.toUpperCase()]" on-finish-render>
 		            <lx-radio-group>
 		                <label for="" class="question-title">{{question['title']}}</label>
@@ -28,9 +38,37 @@
 		 
 		        
 		    </div>
-		    <div class="p+ submit-btn"  ng-hide="$ctrl.nowPeople.haveScore">
+		    <div class="p+ submit-btn" ng-hide="$ctrl.nowPeople.haveScore">
 				<button class="btn btn--m btn--raised tc-indigo-50 submit-form" lx-ripple="indigo-500" ng-click="$ctrl.submitScore()" >提交</button>
 			</div>
+		</div>
+
+		<div class="p+" ng-show="($ctrl.nowPeople.type==='impression')">
+		    <div class="captain">
+		            <div class="card__img card__img--left" style="float:left">
+		                <img src="/static/img/yl.jpg">
+		            </div>
+		 
+		            <div flex-item flex-container="column" class="captain-info">
+		                <div flex-item>
+		                    <div class="p+">
+		                        <strong class="fs-headline display-block">{{$ctrl.nowPeople.realname}}</strong>
+		                        <span class="fs-subhead tc-black-2 display-block">Dian团队队长</span>
+		                        <span class="fs-subhead tc-black-2 display-block">编号: 526</span>
+		                        <span class="fs-subhead tc-black-2 display-block">喻信ID: {{$ctrl.nowPeople.username}}</span>
+		                        <span class="fs-subhead tc-black-2 display-block">项目组: FCoE</span>
+		                        <span class="fs-subhead tc-black-2 display-block">2012级种子班成员</span>
+		                        <span class="fs-subhead tc-black-2 display-block">2016级研究生</span>
+		                        <span class="fs-subhead tc-black-2 display-block">2016级研究生</span>
+		                    </div>
+		                </div>
+		 
+		                <lx-text-field lx-label="你对本届队长的印象分(满分100)" class="captain-score">
+					        <input type="number" ng-model="$ctrl.nowPeople.score[0]" ng-value="$ctrl.nowPeople.score[0]" max="100" min="0" ng-disabled="$ctrl.nowPeople.haveScore">
+					    </lx-text-field>
+					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression()"  ng-hide="$ctrl.nowPeople.haveScore">提交</lx-button
+		            </div>
+		    </div>
 		</div>
 		
     </div>
@@ -42,6 +80,15 @@
 					<div class="link" ng-click="$ctrl.toogleMenu(key)"><i class="fa fa-paint-brush"></i>{{key}}<i class="fa fa-chevron-down"></i></div>
 					<ul class="submenu" ng-show="$ctrl.toogle[key]">
 						<li ng-repeat="names in value" ng-click="$ctrl.updateNowPeople(key, names.username, $index)"><a>{{names.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked(names.score)"></lx-icon></a></li>
+					</ul>
+				</li>
+		</ul>
+
+		<ul class="accordion">
+				<li >
+					<div class="link" ng-click="$ctrl.toogleMenu('captain')"><i class="fa fa-paint-brush"></i>队长<i class="fa fa-chevron-down"></i></div>
+					<ul class="submenu" ng-show="$ctrl.toogle['captain']">
+						<li ng-repeat="name in $ctrl.captain" ng-click="$ctrl.updateCaptain(name, $index)"><a>{{name.realname}}<lx-icon lx-id="check" lx-size="xs" lx-color="green" lx-type="circled" ng-show="$ctrl.isChecked($ctrl.impression)"></lx-icon></a></li>
 					</ul>
 				</li>
 		</ul>

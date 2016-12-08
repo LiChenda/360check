@@ -18,6 +18,13 @@ var UserSchema = new Schema({
 			    		}
 			    	]
     	}
+    ],
+    impression: [
+    	{
+    		fromName: String,
+    		identity: String,
+    		score: Number
+    	}
     ]
 });
 mongoose.model('User', UserSchema);
