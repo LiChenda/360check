@@ -26,6 +26,8 @@
     <script src="/static/js/data-list/data-list.component.js"></script>
     <script src="/static/js/all-score/all-score.module.js"></script>
     <script src="/static/js/all-score/all-score.component.js"></script>
+    <script src="/static/js/star-list/star-list.module.js"></script>
+    <script src="/static/js/star-list/star-list.component.js"></script>
 
     <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
     <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
@@ -43,7 +45,7 @@
       <div class="p+ menu-bar-l">
           <a href="#!/360"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=true" class="tc-indigo-900">360考核</lx-button></a>
           <a href="#!/scorelist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">数据榜</lx-button></a>
-          <lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">明星榜</lx-button>
+          <a href="#!/starlist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">明星榜</lx-button></a>
           <a href="#!/allscore"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900" ng-if="identity=='captain' || identity == 'tutor'">分数统计</lx-button></a>
           <lx-dropdown ng-if="user.username" lx-position="right">
               <lx-dropdown-toggle>
@@ -69,6 +71,8 @@
                   <li ng-click="toggle.isBtnShow=true"><a href="#!/360" class="dropdown-link">360考核</a></li>
                   <li ng-click="toggle.isBtnShow=false"><a href="#!/scorelist" class="dropdown-link">数据榜</a></li>
                   <li ng-click="toggle.isBtnShow=false"><a class="dropdown-link">明星榜</a></li>
+                  <li ng-click="toggle.isBtnShow=false" ng-if="identity=='captain' || identity == 'tutor'"><a href="#!/allscore" class="dropdown-link">分数统计</a></li>
+
                   <li class="dropdown-divider"></li>
                   <li ng-if="(user.username=='')"><a href="/login" class="dropdown-link">登录</a></li>
                   <li ng-if="user.username"><a class="dropdown-link">{{user.realname}}</a></li>

@@ -521,264 +521,327 @@ exports.getFinalScore = function(req, res){
         });
         response.on('end', function(){
           config = JSON.parse(config);
-          User.find().
-            exec(function(err, docs){
-              if(err){
-                console.log('Error: '+err)
-              }else{
-                if(docs){
-                  var result = [];
-                  var teamLeader = [];
-                  var minister = [];
-                  config['xmz'].forEach(function(v, i){
-                    if(v['leader']!=''&&teamLeader.indexOf(v['leader'])===-1){
-                      teamLeader.push(v['leader'])
-                    }
-                  })
-                  config['dwh'].forEach(function(v, i){
-                    if(v['leader']!=''&&minister.indexOf(v['leader'])===-1){
-                      minister.push(v['leader'])
-                    }
-                  })
-                  docs.forEach(function(value, index){
-                    var person = {
-                      username: docs[index].username,
-                      realname: docs[index].realname,
-                      identity: ['normal','normal'],
-                      xmz: [],
-                      part_1:{
-                        A: 0,
-                        B: 0,
-                        C: 0
-                      },
-                      part_2:{
-                        A: 0,
-                        B: 0,
-                        C: 0
-                      }
-                    }
-
-                    /* part 1 */
-                    if(docs[index]['username']===captain){
-                      person['identity'][0] = 'captain';
-                      var a_score = 0,a_count = 0,
-                          b_score = 0,b_count = 0;
-                      docs[index]['impression'].forEach(function(v, i){
-                        if(v['identity']==='normal'){
-                          a_score += v['score']*0.8;
-                          a_count += 1;
-                        }else if(v['identity']==='tutor'){
-                          b_score += v['score']*0.8;
-                          b_count += 1;
-                        }
-                      })
-                      if(a_count)
-                        person['part_1']['A'] = parseFloat((a_score/a_count).toFixed(2))
-                      if(b_count)
-                        person['part_1']['B'] = parseFloat((b_score/b_count).toFixed(2))
-                    }else if(teamLeader.indexOf(docs[index]['username'])>-1){
-                      person['identity'][0] = 'teamLeader';
-                      var a_score = 0,a_count = 0,
-                          b_score = 0,b_count = 0,
-                          c_score = 0,c_count = 0;
-                      docs[index]['score'].forEach(function(v, i){
-                        if(v['partName']==='xmz'){
-                          v['content'].forEach(function(v1, i1){
-                            v1['rateList'].forEach(function(v2, i2){
-                              if(v2['fromName']!=docs[index]['username']){
-                                v2['rateScore'].forEach(function(v3, i3){
-                                  a_score += v3;
-                                })
-                                a_count += 1;
-                              }
-                            })
-                          })
-                        }
-                      })
-                      if(a_count)
-                        person['part_1']['A'] = parseFloat((a_score/a_count).toFixed(2));
-
-                      docs[index]['impression'].forEach(function(v, i){
-                        if(v['identity']==='captain'){
-                          b_score += v['score']*0.8;
-                          b_count += 1;
-                        }
-                        if(v['identity'==='tutor']){
-                          c_score += v['score']*0.8;
-                          c_count += 1;
-                        }
-                      })
-
-                      if(b_count)
-                        person['part_1']['B'] = parseFloat((b_score/b_count).toFixed(2));
-                      if(c_count)
-                        person['part_1']['C'] = parseFloat((c_score/c_count).toFixed(2));
-
-                    }else{
-                      var a_score = 0,a_count = 0,
-                          b_score = 0,b_count = 0,
-                          c_score = 0,c_count = 0;
-                      docs[index]['score'].forEach(function(v, i){
-                        if(v['partName']==='xmz'){
-                          v['content'].forEach(function(v1, i1){
-                            var thisLeader = '';
-                            config['xmz'].forEach(function(vv, ii){
-                              if(vv['name']===v1['teamName']){
-                                thisLeader = vv['leader'];
-                                return false;
-                              }
-                            })
-                            v1['rateList'].forEach(function(v2, i2){
-                              if(v2['fromName']===thisLeader){
-                                v2['rateScore'].forEach(function(v3, i3){
-                                  b_score += v3;
-                                })
-                                b_count += 1;
-                              }else if(v2['fromName']!=docs[index]['username']){
-                                v2['rateScore'].forEach(function(v3, i3){
-                                  a_score += v3;
-                                })
-                                a_count += 1;
-                              }
-                            })
-                          })
-                        }
-                      })
-                      if(a_count)
-                        person['part_1']['A'] = parseFloat((a_score/a_count).toFixed(2))
-                      if(b_count)
-                        person['part_1']['B'] = parseFloat((b_score/b_count).toFixed(2))
-                      docs[index]['impression'].forEach(function(v, i){
-                        if(v['identity']==='captain'){
-                          c_score += v['score']*0.8;
-                          c_count += 1;
-                        }
-                      })
-                      if(c_count)
-                        person['part_1']['C'] = parseFloat((c_score/c_count).toFixed(2));
-
-                    }
-                    /* part 2 */
-                    if(docs[index]['username']===captain){
-                      person['identity'][1] = 'captain';
-                      var a_score = 0,a_count = 0,
-                          b_score = 0,b_count = 0;
-                      docs[index]['impression'].forEach(function(v, i){
-                        if(minister.indexOf(v['fromName'])>-1){
-                          a_score += v['score']*0.2;
-                          a_count += 1;
-                        }
-                        if(v['identity']==='tutor'){
-                          b_score += v['score']*0.2;
-                          b_count += 1;
-                        }
-                      })
-                      if(a_count)
-                        person['part_2']['A'] = parseFloat((a_score/a_count).toFixed(2))
-                      if(b_count)
-                        person['part_2']['B'] = parseFloat((b_score/b_count).toFixed(2))
-                    }else if(minister.indexOf(docs[index]['username'])>-1){
-                      person['identity'][1] = 'minister';
-                      var a_score = 0,a_count = 0,
-                          b_score = 0,b_count = 0,
-                          c_score = 0,c_count = 0;
-                      docs[index]['score'].forEach(function(v, i){
-                        if(v['partName']==='dwh'){
-                          v['content'].forEach(function(v1, i1){
-                            v1['rateList'].forEach(function(v2, i2){
-                              if(v2['fromName']!=docs[index]['username']){
-                                v2['rateScore'].forEach(function(v3, i3){
-                                  a_score += v3;
-                                })
-                                a_count += 1;
-                              }
-                            })
-                          })
-                        }
-                      })
-
-                      docs[index]['impression'].forEach(function(v, i){
-                        if(v['identity']==='captain'){
-                          b_score += v['score']*0.2;
-                          b_count += 1;
-                        }
-                        if(v['identity'==='tutor']){
-                          c_score += v['score']*0.2;
-                          c_count += 1;
-                        }
-                      })
-                      if(a_count)
-                        person['part_2']['A'] = parseFloat((a_score/a_count).toFixed(2))
-                      if(b_count)
-                        person['part_2']['B'] = parseFloat((b_score/b_count).toFixed(2))
-                      if(c_count)
-                        person['part_2']['C'] = parseFloat((c_score/c_count).toFixed(2));
-                    }else{
-                      var a_score = 0,a_count = 0,
-                          b_score = 0,b_count = 0,
-                          c_score = 0,c_count = 0;
-                      docs[index]['score'].forEach(function(v, i){
-                        if(v['partName']==='dwh'){
-                          v['content'].forEach(function(v1, i1){
-                            var thisLeader = '';
-                            config['dwh'].forEach(function(vv, ii){
-                              if(vv['name']===v1['teamName']){
-                                thisLeader = vv['leader'];
-                                return false;
-                              }
-                            })
-                            v1['rateList'].forEach(function(v2, i2){
-                              if(v2['fromName']===thisLeader){
-                                v2['rateScore'].forEach(function(v3, i3){
-                                  b_score += v3;
-                                })
-                                b_count += 1;
-                              }else if(v2['fromName']!=docs[index]['username']){
-                                v2['rateScore'].forEach(function(v3, i3){
-                                  a_score += v3;
-                                })
-                                a_count += 1;
-                              }
-                            })
-                          })
-                        }
-                      })
-                      if(a_count)
-                        person['part_2']['A'] = parseFloat((a_score/a_count).toFixed(2))
-                      if(b_count)
-                        person['part_2']['B'] = parseFloat((b_score/b_count).toFixed(2))
-                      docs[index]['impression'].forEach(function(v, i){
-                        if(v['identity']==='captain'){
-                          c_score += v['score']*0.2;
-                          c_count += 1;
-                        }
-                      })
-                      if(c_count)
-                        person['part_2']['C'] = parseFloat((c_score/c_count).toFixed(2));
-                    }
-
-                    docs[index]['score'].forEach(function(v, i){
-                      if(v['partName']==='xmz'){
-                        v['content'].forEach(function(v1, i1){
-                          person['xmz'].push(v1['teamName'])
-                        })
-                      }
-                    })
-                    if(person['xmz'].length){
-                      result.push(person)
-                    }
-                    
-
-                  })
-                  res.json(result);
-                }
-              }
-            })
+          finalScore(captain, config, res, highPriority);
+          // console.log(re);
+          // res.json(re);
           
-
         })
       }).end()
 
     })
   }).end()
+}
+
+exports.getStars = function(req, res){
+  http.request({host:'127.0.0.1',path:'/static/json/boss.json',port:'1337'},function(response){
+    var jsondata = '';
+    response.on('data', function(chunk){
+      jsondata += chunk;
+    });
+    response.on('end', function(){
+      var captain = JSON.parse(jsondata)['captain'][0]['username'];
+      var tutor = JSON.parse(jsondata)['tutor'];
+      http.request({host:'127.0.0.1',path:'/static/json/config.json',port:'1337'},function(response){
+        var config = '';
+        response.on('data', function(chunk){
+          config += chunk;
+        });
+        response.on('end', function(){
+          config = JSON.parse(config);
+          finalScore(captain, config, res, lowPriority);
+          
+        })
+      }).end()
+
+    })
+  }).end()
+}
+
+function highPriority(res, result){
+  res.json(result);
+}
+function lowPriority(res, result){
+  result.forEach(function(v, i){
+    if(v['identity'][0]==='captain'){
+        result[i]['part_1_score'] = parseFloat((v['part_1']['A']*0.3 + v['part_1']['B']*0.7).toFixed(2));
+      }else if(v['identity'][0]==='teamLeader'){
+        result[i]['part_1_score'] = parseFloat((v['part_1']['A']*0.3 + v['part_1']['B']*0.3 + v['part_1']['C']*0.4).toFixed(2));
+      }else{
+        result[i]['part_1_score'] = parseFloat((v['part_1']['A']*0.3 + v['part_1']['B']*0.4 + v['part_1']['C']*0.3).toFixed(2));
+      }
+      if(v['identity'][1]==='captain'){
+        result[i]['part_2_score'] = parseFloat((v['part_2']['A']*0.3 + v['part_2']['B']*0.7).toFixed(2));
+      }else if(v['identity'][1]==='minister'){
+        result[i]['part_2_score'] = parseFloat((v['part_2']['A']*0.3 + v['part_2']['B']*0.3 + v['part_2']['C']*0.4).toFixed(2));
+      }else{
+        result[i]['part_2_score'] = parseFloat((v['part_2']['A']*0.3 + v['part_2']['B']*0.4 + v['part_2']['C']*0.3).toFixed(2));
+      }
+      result[i]['total_score'] = result[i]['part_1_score']+result[i]['part_2_score'];
+          
+  })
+  result.sort(function(a, b){
+    return b['total_score'] - a['total_score'];
+  })
+  result = result.slice(0,5)
+  // console.log(result);
+  res.json(result);
+}
+
+function finalScore(captain, config, res, callback){
+  User.find().
+    exec(function(err, docs){
+      if(err){
+        console.log('Error: '+err)
+      }else{
+        if(docs){
+          var result = [];
+          var teamLeader = [];
+          var minister = [];
+          config['xmz'].forEach(function(v, i){
+            if(v['leader']!=''&&teamLeader.indexOf(v['leader'])===-1){
+              teamLeader.push(v['leader'])
+            }
+          })
+          config['dwh'].forEach(function(v, i){
+            if(v['leader']!=''&&minister.indexOf(v['leader'])===-1){
+              minister.push(v['leader'])
+            }
+          })
+          docs.forEach(function(value, index){
+            var person = {
+              username: docs[index].username,
+              realname: docs[index].realname,
+              identity: ['normal','normal'],
+              xmz: [],
+              part_1:{
+                A: 0,
+                B: 0,
+                C: 0
+              },
+              part_2:{
+                A: 0,
+                B: 0,
+                C: 0
+              }
+            }
+
+            /* part 1 */
+            if(docs[index]['username']===captain){
+              person['identity'][0] = 'captain';
+              var a_score = 0,a_count = 0,
+                  b_score = 0,b_count = 0;
+              docs[index]['impression'].forEach(function(v, i){
+                if(v['identity']==='normal'){
+                  a_score += v['score']*0.8;
+                  a_count += 1;
+                }else if(v['identity']==='tutor'){
+                  b_score += v['score']*0.8;
+                  b_count += 1;
+                }
+              })
+              if(a_count)
+                person['part_1']['A'] = parseFloat((a_score/a_count).toFixed(2))
+              if(b_count)
+                person['part_1']['B'] = parseFloat((b_score/b_count).toFixed(2))
+            }else if(teamLeader.indexOf(docs[index]['username'])>-1){
+              person['identity'][0] = 'teamLeader';
+              var a_score = 0,a_count = 0,
+                  b_score = 0,b_count = 0,
+                  c_score = 0,c_count = 0;
+              docs[index]['score'].forEach(function(v, i){
+                if(v['partName']==='xmz'){
+                  v['content'].forEach(function(v1, i1){
+                    v1['rateList'].forEach(function(v2, i2){
+                      if(v2['fromName']!=docs[index]['username']){
+                        v2['rateScore'].forEach(function(v3, i3){
+                          a_score += v3;
+                        })
+                        a_count += 1;
+                      }
+                    })
+                  })
+                }
+              })
+              if(a_count)
+                person['part_1']['A'] = parseFloat((a_score/a_count).toFixed(2));
+
+              docs[index]['impression'].forEach(function(v, i){
+                if(v['identity']==='captain'){
+                  b_score += v['score']*0.8;
+                  b_count += 1;
+                }
+                if(v['identity'==='tutor']){
+                  c_score += v['score']*0.8;
+                  c_count += 1;
+                }
+              })
+
+              if(b_count)
+                person['part_1']['B'] = parseFloat((b_score/b_count).toFixed(2));
+              if(c_count)
+                person['part_1']['C'] = parseFloat((c_score/c_count).toFixed(2));
+
+            }else{
+              var a_score = 0,a_count = 0,
+                  b_score = 0,b_count = 0,
+                  c_score = 0,c_count = 0;
+              docs[index]['score'].forEach(function(v, i){
+                if(v['partName']==='xmz'){
+                  v['content'].forEach(function(v1, i1){
+                    var thisLeader = '';
+                    config['xmz'].forEach(function(vv, ii){
+                      if(vv['name']===v1['teamName']){
+                        thisLeader = vv['leader'];
+                        return false;
+                      }
+                    })
+                    v1['rateList'].forEach(function(v2, i2){
+                      if(v2['fromName']===thisLeader){
+                        v2['rateScore'].forEach(function(v3, i3){
+                          b_score += v3;
+                        })
+                        b_count += 1;
+                      }else if(v2['fromName']!=docs[index]['username']){
+                        v2['rateScore'].forEach(function(v3, i3){
+                          a_score += v3;
+                        })
+                        a_count += 1;
+                      }
+                    })
+                  })
+                }
+              })
+              if(a_count)
+                person['part_1']['A'] = parseFloat((a_score/a_count).toFixed(2))
+              if(b_count)
+                person['part_1']['B'] = parseFloat((b_score/b_count).toFixed(2))
+              docs[index]['impression'].forEach(function(v, i){
+                if(v['identity']==='captain'){
+                  c_score += v['score']*0.8;
+                  c_count += 1;
+                }
+              })
+              if(c_count)
+                person['part_1']['C'] = parseFloat((c_score/c_count).toFixed(2));
+
+            }
+            /* part 2 */
+            if(docs[index]['username']===captain){
+              person['identity'][1] = 'captain';
+              var a_score = 0,a_count = 0,
+                  b_score = 0,b_count = 0;
+              docs[index]['impression'].forEach(function(v, i){
+                if(minister.indexOf(v['fromName'])>-1){
+                  a_score += v['score']*0.2;
+                  a_count += 1;
+                }
+                if(v['identity']==='tutor'){
+                  b_score += v['score']*0.2;
+                  b_count += 1;
+                }
+              })
+              if(a_count)
+                person['part_2']['A'] = parseFloat((a_score/a_count).toFixed(2))
+              if(b_count)
+                person['part_2']['B'] = parseFloat((b_score/b_count).toFixed(2))
+            }else if(minister.indexOf(docs[index]['username'])>-1){
+              person['identity'][1] = 'minister';
+              var a_score = 0,a_count = 0,
+                  b_score = 0,b_count = 0,
+                  c_score = 0,c_count = 0;
+              docs[index]['score'].forEach(function(v, i){
+                if(v['partName']==='dwh'){
+                  v['content'].forEach(function(v1, i1){
+                    v1['rateList'].forEach(function(v2, i2){
+                      if(v2['fromName']!=docs[index]['username']){
+                        v2['rateScore'].forEach(function(v3, i3){
+                          a_score += v3;
+                        })
+                        a_count += 1;
+                      }
+                    })
+                  })
+                }
+              })
+
+              docs[index]['impression'].forEach(function(v, i){
+                if(v['identity']==='captain'){
+                  b_score += v['score']*0.2;
+                  b_count += 1;
+                }
+                if(v['identity'==='tutor']){
+                  c_score += v['score']*0.2;
+                  c_count += 1;
+                }
+              })
+              if(a_count)
+                person['part_2']['A'] = parseFloat((a_score/a_count).toFixed(2))
+              if(b_count)
+                person['part_2']['B'] = parseFloat((b_score/b_count).toFixed(2))
+              if(c_count)
+                person['part_2']['C'] = parseFloat((c_score/c_count).toFixed(2));
+            }else{
+              var a_score = 0,a_count = 0,
+                  b_score = 0,b_count = 0,
+                  c_score = 0,c_count = 0;
+              docs[index]['score'].forEach(function(v, i){
+                if(v['partName']==='dwh'){
+                  v['content'].forEach(function(v1, i1){
+                    var thisLeader = '';
+                    config['dwh'].forEach(function(vv, ii){
+                      if(vv['name']===v1['teamName']){
+                        thisLeader = vv['leader'];
+                        return false;
+                      }
+                    })
+                    v1['rateList'].forEach(function(v2, i2){
+                      if(v2['fromName']===thisLeader){
+                        v2['rateScore'].forEach(function(v3, i3){
+                          b_score += v3;
+                        })
+                        b_count += 1;
+                      }else if(v2['fromName']!=docs[index]['username']){
+                        v2['rateScore'].forEach(function(v3, i3){
+                          a_score += v3;
+                        })
+                        a_count += 1;
+                      }
+                    })
+                  })
+                }
+              })
+              if(a_count)
+                person['part_2']['A'] = parseFloat((a_score/a_count).toFixed(2))
+              if(b_count)
+                person['part_2']['B'] = parseFloat((b_score/b_count).toFixed(2))
+              docs[index]['impression'].forEach(function(v, i){
+                if(v['identity']==='captain'){
+                  c_score += v['score']*0.2;
+                  c_count += 1;
+                }
+              })
+              if(c_count)
+                person['part_2']['C'] = parseFloat((c_score/c_count).toFixed(2));
+            }
+
+            docs[index]['score'].forEach(function(v, i){
+              if(v['partName']==='xmz'){
+                v['content'].forEach(function(v1, i1){
+                  person['xmz'].push(v1['teamName'])
+                })
+              }
+            })
+            if(person['xmz'].length){
+              result.push(person)
+            }
+            
+
+          })
+          callback(res, result);
+          // res.json(result);
+          // console.log(result);
+          // return result;
+        }
+      }
+    })
 }

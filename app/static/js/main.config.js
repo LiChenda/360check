@@ -18,6 +18,9 @@ angular.
         when('/scorelist', {
           template: '<score-list></score-list>'
         }).
+        when('/starlist', {
+          template: '<star-list></star-list>'
+        }).
         when('/allscore', {
           template: '<all-score></all-score>'
         }).
