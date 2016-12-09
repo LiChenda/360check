@@ -43,7 +43,7 @@
     <div flex-item="9">
     	<span class="fs-display-2 display-block bg-text" ng-hide="$ctrl.nowPeople.username!=''">Select Someone First</span>
     	<div class="p+" ng-show="$ctrl.nowPeople.type==='normal'">
-    		<span class="fs-title display-block">{{$ctrl.nowPeople.teamName+' -- '+$ctrl.nowPeople.realname}}</span>
+    		<span class="fs-title display-block">{{$ctrl.nowPeople.teamName+' -- '+$ctrl.nowPeople.realname}}</span><span ng-show="$ctrl.nowPeople.partName==='xmz'">(如未共事可直接跳过)</span>
     	</div>
     	<div class="p+ card-container" ng-show="$ctrl.nowPeople.type==='normal'">
 		    <div class="card question" ng-repeat="question in $ctrl.questions[$ctrl.nowPeople.partName.toUpperCase()]" on-finish-render>
@@ -130,7 +130,7 @@
 		
     </div>
 </div>
-<div class="slide-left" slide-resize ng-class="{'slide-left-show':$ctrl.isSlideShow}">
+<div class="slide-left" slide-resize ng-class="{'slide-left-show':$ctrl.isSlideShow}" ng-if="$ctrl.username">
 	<ul id="accordion" class="accordion">
 				<li><div class="link" style="height:60px;"><i class="logo" style="top:8px"></i></div></li>
 				<li ng-repeat="(key, value) in $ctrl.rateList">
