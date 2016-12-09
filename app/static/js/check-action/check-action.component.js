@@ -313,7 +313,7 @@ angular.
 					$http.post('/getRateList',{username: self.username}).
 						success(function(data, status, headers, config){
 							if(data==3){
-								LxNotificationService.warning('Be Careful');
+								// LxNotificationService.warning('Be Careful');
 								return false;
 							}
 							self.rateList = data;
@@ -340,7 +340,7 @@ angular.
 					$http.post('/getImpression',{username: self.username}).
 						success(function(data, status, headers, config){
 							if(data==3){
-								LxNotificationService.warning('Be Careful');
+								// LxNotificationService.warning('Be Careful');
 								return false;
 							}
 							self.impression = data.impression;
@@ -450,7 +450,9 @@ angular.
 		}
 		var width = window.innerWidth,
     		height = window.innerHeight;
-        document.querySelector('.slide-mask').setAttribute('style','width:'+width+'px;height:'+height+'px');
+    	if(document.querySelector('.slide-mask')){
+        	document.querySelector('.slide-mask').setAttribute('style','width:'+width+'px;height:'+height+'px');
+     	}
      	element.css({
           height: height + 'px'
         })
