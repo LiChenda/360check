@@ -10,6 +10,9 @@ module.exports = function(app) {
   var auth = basicAuth(function(user, pass){
     return (user === 'waning' && pass === 'norway@123')
   })
+  app.get('/',function(req, res){
+    res.redirect('/main')
+  })
   /** admin **/
   app.get('/admin', auth, function(req, res){
     res.render('admin')
