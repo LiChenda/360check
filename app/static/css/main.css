@@ -57,6 +57,12 @@
 body{
 	padding-top: 64px;
 }
+footer{
+	position: fixed;
+	bottom: 10px;
+	text-align: center;
+	width: 100%;
+}
 /**/
 .logo{
 	position: absolute;
