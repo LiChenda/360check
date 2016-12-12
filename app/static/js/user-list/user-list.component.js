@@ -96,7 +96,7 @@ angular.
         $http.post('/admin/updateUsers',self.users).
           success(function(data, status, headers, config){
             // self.originUsers = angular.copy(self.users);
-            // window.location.reload();
+            window.location.reload();
           }).
           error(function(data, status, headers, config){
             console.log('update failed')
