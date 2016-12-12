@@ -81,7 +81,7 @@ angular.module('allScore').
 					}else{
 						self.finalScore[i]['part_2_score'] = parseFloat((v['part_2']['A']*0.3 + v['part_2']['B']*0.4 + v['part_2']['C']*0.3).toFixed(2));
 					}
-					self.finalScore[i]['total_score'] = self.finalScore[i]['part_1_score']+self.finalScore[i]['part_2_score'];
+					self.finalScore[i]['total_score'] = parseFloat((self.finalScore[i]['part_1_score']+self.finalScore[i]['part_2_score']).toFixed(2));
 					self.dataTableTbody.push({
 						id: i,
 						realname: v['realname'],
