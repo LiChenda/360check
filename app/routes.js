@@ -23,6 +23,7 @@ module.exports = function(app) {
 
   app.get('/admin/getAllUsers', admin.getAllUsers);
   app.post('/admin/updateUsers', admin.updateUsers);
+  app.post('/admin/removeScore', admin.removeScore);
 
   /**  360check  **/
   app.get('/main', function(req, res){

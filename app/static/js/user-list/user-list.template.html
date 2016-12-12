@@ -17,7 +17,7 @@
             <th ng-repeat="xmz in $ctrl.config.xmz">{{xmz.name}}</th>
             <th ng-repeat="dwh in $ctrl.config.dwh">{{dwh.name}}</th>
             <th ng-repeat="zzb in $ctrl.config.zzb" on-finish-render>{{zzb.name}}</th>
-            <th><button type="button" class="btn btn-primary submitChange" ng-click="$ctrl.submitChange()">提交修改</button></th>
+            <th><button type="button" class="btn btn-primary submitChange" ng-click="$ctrl.submitChange()">提交</button><button style="margin-top:5px;" type="button" class="btn btn-danger submitChange" ng-click="$ctrl.removeScore()">重置</button></th>
           </tr>
         </thead>
         <tbody>

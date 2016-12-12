@@ -575,13 +575,15 @@ exports.getSeedScore = function(req, res){
                           var p_count = 0;
                           person['zzb'] = v1['teamName'];
                           v1['rateList'].forEach(function(v2, i2){
-                            v2['rateScore'].forEach(function(v3, i3){
-                              if(!p_score[i3]){
-                                p_score[i3] = 0;
-                              }
-                              p_score[i3] += v3;
-                            })
-                            p_count += 1;
+                            if(v2['fromName']!=docs[index]['username']){
+                              v2['rateScore'].forEach(function(v3, i3){
+                                if(!p_score[i3]){
+                                  p_score[i3] = 0;
+                                }
+                                p_score[i3] += v3;
+                              })
+                              p_count += 1;
+                            }
                           })
                           if(p_count){
                             for(var ii=0,ll=p_score.length;ii<ll;ii++){
