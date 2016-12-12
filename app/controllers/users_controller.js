@@ -330,7 +330,9 @@ exports.writeImpression = function(req, res){
             })
           }
           doc.save(function(err){
-            console.log('save err')
+            if(err){
+              console.log('save err:' + err)
+            }
             res.json(0)
           })
         }
@@ -531,7 +533,80 @@ exports.getFinalScore = function(req, res){
     })
   }).end()
 }
+exports.getSeedScore = function(req, res){
+  http.request({host:'127.0.0.1',path:'/static/json/boss.json',port:'1337'},function(response){
+    var jsondata = '';
+    response.on('data', function(chunk){
+      jsondata += chunk;
+    });
+    response.on('end', function(){
+      var captain = JSON.parse(jsondata)['captain'][0]['username'];
+      var tutor = JSON.parse(jsondata)['tutor'];
+      if(req.session.username!=captain && tutor.indexOf(req.session.username)===-1){
+        res.json(3);
+        return;
+      }
+      http.request({host:'127.0.0.1',path:'/static/json/config.json',port:'1337'},function(response){
+        var config = '';
+        response.on('data', function(chunk){
+          config += chunk;
+        });
+        response.on('end', function(){
+          config = JSON.parse(config);
+          User.find().regex('score.content.teamName', '^[0-9]+级').
+            exec(function(err, docs){
+              if(err){
+                console.log('Error: '+err);
+              }else{
+                if(docs){
+                  // console.log(docs);
+                  var result = [];
+                  docs.forEach(function(value, index){
+                    var person = {
+                      username: docs[index]['username'],
+                      realname: docs[index]['realname'],
+                      zzb: '',
+                      score: []
+                    }
+                    docs[index]['score'].forEach(function(v, i){
+                      if(v['partName']==='zzb'){
+                        v['content'].forEach(function(v1, i1){
+                          var p_score = [];
+                          var p_count = 0;
+                          person['zzb'] = v1['teamName'];
+                          v1['rateList'].forEach(function(v2, i2){
+                            v2['rateScore'].forEach(function(v3, i3){
+                              if(!p_score[i3]){
+                                p_score[i3] = 0;
+                              }
+                              p_score[i3] += v3;
+                            })
+                            p_count += 1;
+                          })
+                          if(p_count){
+                            for(var ii=0,ll=p_score.length;ii<ll;ii++){
+                              person['score'][ii] = parseFloat((p_score[ii]/p_count).toFixed(2))
+                            }
+                          }
+                        })
+                      }
+                    })
+                    result.push(person);
+                  })
+                  res.json(result);
+                }
+              }
+            })
+          // finalScore(captain, config, res, highPriority);
+          // console.log(re);
+          // res.json(re);
+          
+        })
+      }).end()
 
+    })
+  }).end()
+}
 exports.getStars = function(req, res){
   http.request({host:'127.0.0.1',path:'/static/json/boss.json',port:'1337'},function(response){
     var jsondata = '';
@@ -669,8 +744,7 @@ function finalScore(captain, config, res, callback){
                 if(v['identity']==='captain'){
                   b_score += v['score']*0.8;
                   b_count += 1;
-                }
-                if(v['identity'==='tutor']){
+                }else if(v['identity']==='tutor'){
                   c_score += v['score']*0.8;
                   c_count += 1;
                 }
@@ -769,7 +843,7 @@ function finalScore(captain, config, res, callback){
                   b_score += v['score']*0.2;
                   b_count += 1;
                 }
-                if(v['identity'==='tutor']){
+                if(v['identity']==='tutor'){
                   c_score += v['score']*0.2;
                   c_count += 1;
                 }

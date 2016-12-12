@@ -6,7 +6,8 @@ var checkMain = angular.module('checkMain',[
 	'checkAction',
 	'scoreList',
 	'allScore',
-	'starList'
+	'starList',
+	'seedScore'
 	])
 checkMain.controller('checkIndex', ['$scope','$rootScope','$http', function($scope, $rootScope, $http){
 	$scope.user = {

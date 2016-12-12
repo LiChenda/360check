@@ -1,0 +1,8 @@
+<div flex-container="row" style="margin-top:20px;margin-bottom:20px;" flex-column="12" ng-repeat="(key, value) in $ctrl.dataTableList">
+	<div flex-item="1"></div>
+	<div flex-item="10" class="bc-white-1 score-table">
+		<p style="text-align:center;" class="fs-title display-block">{{key}}种子班</p>
+	<lx-data-table lx-border="true" lx-thumbnail="false" lx-thead="value.thead" lx-tbody="value.tbody"></lx-data-table>
+	</div>
+	<div flex-item="1"></div>
+</div>

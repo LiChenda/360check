@@ -11,15 +11,18 @@
 		display: none;
 	}
 }
-@media screen and (min-width: 768px){
+@media screen and (min-width: 815px){
 	.menu-bar-m{
 		display: none;
 	}
 }
-@media screen and (max-width: 767px){
+@media screen and (max-width: 814px){
 	.menu-bar-l{
 		display: none;
 	}
+}
+@media screen and (max-width: 767px){
+	
 	.card,.submit-btn{
 		width: 100%!important;
 	}
@@ -64,6 +67,11 @@ footer{
 	width: 100%;
 }
 /**/
+
+.dropdown-menu{
+	position: fixed!important;
+	top: 48px!important;
+}
 .logo{
 	position: absolute;
 	width: 97px;

@@ -26,6 +26,7 @@ angular.
 			/* tutor part start */
 			self.updateImpressionForTutor = function(name, index){
 				$rootScope.isSlideShow = false;
+				$('body').animate({scrollTop:0},300);
 				self.nowPeople.username = name.username;
 				self.nowPeople.realname = name.realname;
 				self.nowPeople.type = 'impressionForTutor';
@@ -38,6 +39,7 @@ angular.
 			/* captain part start */
 			self.updateImpressionForCaptain = function(name, index){
 				$rootScope.isSlideShow = false;
+				$('body').animate({scrollTop:0},300);
 				self.nowPeople.username = name.username;
 				self.nowPeople.realname = name.realname;
 				self.nowPeople.type = 'impressionForCaptain';
@@ -89,6 +91,7 @@ angular.
 			}
 			self.updateCaptain = function(name, index){
 				$rootScope.isSlideShow = false;
+				$('body').animate({scrollTop:0},300);
 				self.nowPeople.username = name.username;
 				self.nowPeople.realname = name.realname;
 				self.nowPeople.type = 'impression';
@@ -99,6 +102,7 @@ angular.
 			}
 			self.updateNowPeople = function(team, name, index){
 				$rootScope.isSlideShow = false;
+				$('body').animate({scrollTop:0},300);
 				console.log(team)
 				console.log(name)
 				console.log(index)
@@ -417,7 +421,7 @@ angular.
     link: function(scope, element, attr) {
     	var width = window.innerWidth,
     		height = window.innerHeight;
-    		if(width<400){
+    		if(width<416){
     			element.css({
     				width: width*3/5 + 'px'
     			})
@@ -456,7 +460,7 @@ angular.
      	element.css({
           height: height + 'px'
         })
-        if(width<400){
+        if(width<416){
     			element.css({
     				width: width*3/5 + 'px'
     			})

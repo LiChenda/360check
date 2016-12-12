@@ -28,6 +28,8 @@
     <script src="/static/js/all-score/all-score.component.js"></script>
     <script src="/static/js/star-list/star-list.module.js"></script>
     <script src="/static/js/star-list/star-list.component.js"></script>
+    <script src="/static/js/seed-score/seed-score.module.js"></script>
+    <script src="/static/js/seed-score/seed-score.component.js"></script>
 
     <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
     <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
@@ -47,6 +49,7 @@
           <a href="#!/scorelist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">数据榜</lx-button></a>
           <a href="#!/starlist"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900">明星榜</lx-button></a>
           <a href="#!/allscore"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900" ng-if="identity=='captain' || identity == 'tutor'">分数统计</lx-button></a>
+           <a href="#!/seedscore"><lx-button lx-size="l" lx-type="flat" lx-color="blue" ng-click="toggle.isBtnShow=false" class="tc-indigo-900" ng-if="identity=='captain' || identity == 'tutor'">种子班分数</lx-button></a>
           <lx-dropdown ng-if="user.username" lx-position="right">
               <lx-dropdown-toggle>
                   <button class="btn btn--m btn--raised bgc-indigo-50 tc-indigo-900" lx-ripple="indigo-500">{{user.realname}}</button>
@@ -72,7 +75,7 @@
                   <li ng-click="toggle.isBtnShow=false"><a href="#!/scorelist" class="dropdown-link">数据榜</a></li>
                   <li ng-click="toggle.isBtnShow=false"><a href="#!/starlist" class="dropdown-link">明星榜</a></li>
                   <li ng-click="toggle.isBtnShow=false" ng-if="identity=='captain' || identity == 'tutor'"><a href="#!/allscore" class="dropdown-link">分数统计</a></li>
-
+                  <li ng-click="toggle.isBtnShow=false" ng-if="identity=='captain' || identity == 'tutor'"><a href="#!/seedscore" class="dropdown-link">种子班分数</a></li>
                   <li class="dropdown-divider"></li>
                   <li ng-if="(user.username=='')"><a href="/login" class="dropdown-link">登录</a></li>
                   <li ng-if="user.username"><a class="dropdown-link">{{user.realname}}</a></li>

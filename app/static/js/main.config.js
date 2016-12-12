@@ -24,6 +24,9 @@ angular.
         when('/allscore', {
           template: '<all-score></all-score>'
         }).
+         when('/seedscore', {
+          template: '<seed-score></seed-score>'
+        }).
         otherwise('/scorelist');
     }
   ]);

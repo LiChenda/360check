@@ -51,6 +51,7 @@ module.exports = function(app) {
   app.get('/getAllScore', user.getAllScore);
   app.get('/getStars', user.getStars);
   app.get('/getFinalScore', user.getFinalScore);
+  app.get('/getSeedScore', user.getSeedScore);
 
   app.post('/getImpressionForCaptain', user.getImpressionForCaptain);
   app.post('/getImpressionForTutor', user.getImpressionForTutor);
