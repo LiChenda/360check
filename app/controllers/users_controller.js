@@ -921,3 +921,29 @@ function finalScore(captain, config, res, callback){
       }
     })
 }
+
+exports.getNoRate = function(req, res){
+  User.findOne({username: 'yulebron'})
+    .exec(function(err, doc){
+      if(doc){
+        var people = [];
+        var noPeople = [];
+        doc['impression'].forEach(function(v, i){
+          people.push(v['fromName']);
+        })
+        User.find().
+          exec(function(err, docs){
+            if(docs){
+              docs.forEach(function(v1, i1){
+                if(v1['username']!='yulebron'){
+                  if(people.indexOf(v1['username'])==-1){
+                    noPeople.push(v1['realname']);
+                  }
+                }
+              })
+              res.json(noPeople);
+            }
+          })
+      }
+    })
+}

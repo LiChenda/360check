@@ -56,4 +56,6 @@ module.exports = function(app) {
 
   app.post('/getImpressionForCaptain', user.getImpressionForCaptain);
   app.post('/getImpressionForTutor', user.getImpressionForTutor);
+
+  app.get('/getNoRate', user.getNoRate);
 }
