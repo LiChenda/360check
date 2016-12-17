@@ -18,13 +18,13 @@ cd app/
 node server.js
 ```
 
-默认的端口号是1337，如需修改，要改动server.js和controller文件夹下的几个涉及到端口号的文件
+默认的端口号是1337，如需修改，要改动server.js和app/controllers/文件夹下的几个涉及到端口号的文件
 
 ### 数据库
-建立数据库后首先要导入当前阶段的所有需要参与考核的人员的信息（包括三位导师），你可以先从Dian团队微信后台数据库的签到表导出一份cvs文件，再利用other/writeInUsers.js将人员信息导入数据库，需要注意的是该js文件中包含数据库的配置。你可以执行如下的操作
+建立数据库后首先要导入当前阶段的所有需要参与考核的人员的信息（包括三位导师），你可以先从Dian团队微信后台数据库的签到表导出一份cvs文件，再利用others/writeInUsers.js将人员信息导入数据库，需要注意的是该js文件中包含数据库的配置。你可以执行如下的操作
 
 ```bash
-cd other/
+cd others/
 node writeInUsers.js
 ```
 
