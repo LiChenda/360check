@@ -101,9 +101,9 @@
 			 
 			        <div class="card__actions">
 			            <lx-text-field lx-label="你对该队员的印象分(满分100)" class="captain-score">
-					        <input type="number" ng-model="$ctrl.nowPeople.score[0]" ng-value="$ctrl.nowPeople.score[0]" max="100" min="0" ng-disabled="$ctrl.nowPeople.haveScore">
+					        <input type="number" ng-model="$ctrl.nowPeople.score[0]" ng-value="$ctrl.nowPeople.score[0]" max="100" min="0" ng-disabled="!(!$ctrl.nowPeople.haveScore || $ctrl.identity =='captain')">
 					    </lx-text-field>
-					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression(1)" ng-hide="$ctrl.nowPeople.haveScore">提交</lx-button>
+					    <lx-button lx-color="orange" lx-type="flat" class="captain-score-btn" ng-click="$ctrl.submitImpression(1)" ng-hide="!(!$ctrl.nowPeople.haveScore || $ctrl.identity =='captain')">提交</lx-button>
 			        </div>
 		    </div>
 		</div>

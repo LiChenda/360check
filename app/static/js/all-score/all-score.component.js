@@ -5,6 +5,9 @@ angular.module('allScore').
 		templateUrl: '/static/js/all-score/all-score.template.html',
 		controller: ['$http', '$scope','$filter','LxNotificationService', function checkCaptainController($http, $scope, $filter, LxNotificationService){
 			var self = this;
+			// self.export = function(){
+			// 	toExcel('table0', 'all', 0, 5);
+			// }
 			$http.get('/getFinalScore').then(function(response){
 				if(response.data==3){
 					LxNotificationService.warning('Be Careful');
@@ -117,7 +120,40 @@ angular.module('allScore').
 					})
 
 				})
+				var tableExcel = document.createElement('table');
+				var tbodyExcel = document.createElement('tbody');
+				angular.forEach(self.dataTableList, function(v, i){
+					var tr_title = document.createElement('tr');
+					tr_title.innerHTML = '<td colspan="4" style="text-align:center">'+i+'</td>';
+					var tr_head = document.createElement('tr');
+					tr_head.innerHTML = '<td>姓名</td><td>队员考核</td><td>队委会考核</td><td>总分</td>';
+					tbodyExcel.appendChild(tr_title);
+					tbodyExcel.appendChild(tr_head);
+					angular.forEach(v['tbody'], function(v1, i1){
+						var tr = document.createElement('tr');
+						tr.innerHTML = '';
+						tr.innerHTML += '<td>'+v1['realname']+'</td>'
+						tr.innerHTML += '<td>'+v1['part_1_score']+'</td>'
+						tr.innerHTML += '<td>'+v1['part_2_score']+'</td>'
+						tr.innerHTML += '<td>'+v1['total_score']+'</td>'
+						tbodyExcel.appendChild(tr);
+					})
+					// var tr = document.createElement('tr');
+					// tr.innerHTML = '<td></td><td></td><td></td><td></td>';
+					// tbodyExcel.appendChild(tr);
+				})
+				tableExcel.appendChild(tbodyExcel);
+				tableExcel.setAttribute('style','width:100px')
+				tbodyExcel.setAttribute('style','display:none')
+				document.querySelector('.export-table').appendChild(tableExcel);
+				$('.export-table table').tableExport({
+					bootstrap: false,
+					formats: ["xls"],
+					fileName: "360考核分数统计"
+				});
 				// console.log(self.dataTableList)
+
+				
 		        
 		        self.advancedDataTableThead = angular.copy(self.dataTableThead);
 		       
@@ -128,6 +164,7 @@ angular.module('allScore').
 
 		        function updateSort(_event, _column)
 		        {
+		        	$('#table0 table').tableExport({bootstrap: false});
 		            self.dataTableTbody = $filter('orderBy')(self.dataTableTbody, _column.name, _column.sort === 'desc' ? true : false);
 		        	angular.forEach(self.dataTableList, function(v, i){
 		        		v['tbody'] = $filter('orderBy')(v['tbody'], _column.name, _column.sort === 'desc' ? true:false);

@@ -2,16 +2,19 @@
 	<div flex-item="1"></div>
 	<div flex-item="10" style="overflow:hidden">
 		<div class="p+" style="float:right">
+			<div class="export-table"></div>
 		    <lx-switch ng-model="$ctrl.switches.display.multi" lx-color="orange" class="mt+">拆分项目组</lx-switch>
 		</div>
 	</div>
 	<div flex-item="1"></div>
 </div>
 
+
+
 <div flex-container="row" flex-column="12" style="margin-bottom:20px;" ng-hide="$ctrl.switches.display.multi">
 	<div flex-item="1"></div>
 	<div flex-item="10" class="bc-white-1 score-table">
-	<lx-data-table lx-border="true" lx-thumbnail="false" lx-thead="$ctrl.advancedDataTableThead" lx-tbody="$ctrl.dataTableTbody"></lx-data-table>
+	<lx-data-table lx-border="true" lx-thumbnail="false" lx-thead="$ctrl.advancedDataTableThead" lx-tbody="$ctrl.dataTableTbody" id="table0" onFinishRender ></lx-data-table>
 	</div>
 	<div flex-item="1"></div>
 </div>
