@@ -164,7 +164,7 @@ angular.module('allScore').
 
 		        function updateSort(_event, _column)
 		        {
-		        	$('#table0 table').tableExport({bootstrap: false});
+		        	// $('#table0 table').tableExport({bootstrap: false});
 		            self.dataTableTbody = $filter('orderBy')(self.dataTableTbody, _column.name, _column.sort === 'desc' ? true : false);
 		        	angular.forEach(self.dataTableList, function(v, i){
 		        		v['tbody'] = $filter('orderBy')(v['tbody'], _column.name, _column.sort === 'desc' ? true:false);
